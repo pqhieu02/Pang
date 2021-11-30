@@ -15,9 +15,9 @@ public class Entry extends HttpServlet implements Constant {
 	private static final long serialVersionUID = 1L;
 	private World world = new World();;
 
-	public Entry() {
-		super();
-	}
+//	public Entry() {
+//		super();
+//	}
 
 	public String requestHandler(ClientRequestDataForm data) {
 		switch (data.action) {

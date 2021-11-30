@@ -1,5 +1,6 @@
 import { MENU_FADE_OUT_DURATION } from "./constant.js";
 import { registerForId } from "./lib/fetchAPI.js";
+import { hintTextAnimation } from "./lib/textAnimation.js";
 import { cleanBackgroundCanvas, endMenu, initMenu } from "./menu.js";
 import { play } from "./play.js";
 
@@ -9,21 +10,9 @@ const menuContainer = document.getElementById("menuContainer");
 joinBtn.onclick = joinGame;
 
 window.onload = () => {
-    backgroundCanvas.width = window.innerWidth;
-    backgroundCanvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
     initMenu();
     hintTextAnimation();
 };
-
-window.onresize = async () => {
-    backgroundCanvas.width = window.innerWidth;
-    backgroundCanvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
 
 function joinGame() {
     joinBtn.onclick = null;

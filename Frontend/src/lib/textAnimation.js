@@ -1,6 +1,6 @@
 import { hintList } from "../constant.js";
 
-export function hintTextAnimation() {
+function hintTextAnimation() {
     const hint = document.getElementById("hint");
     const waitTime = 2000;
 
@@ -30,3 +30,5 @@ export function hintTextAnimation() {
         hint.innerHTML = text;
     }, 100);
 }
+
+export { hintTextAnimation };

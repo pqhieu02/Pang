@@ -72,7 +72,7 @@ span {
 #backgroundCanvas {
     /* height: 100%; */
     position: absolute;
-    background-color: black;
+    background-color: white;
     z-index: -1;
 }
 

@@ -273,7 +273,7 @@ function initMenu() {
             mouse.radius = Math.min(MOUSE_MAX_RADIUS, mouse.radius + 100);
         }
     };
-
+    
     for (let i = -1; i < TOTAL_WIDTH_OBJECT + 1; i++)
         for (let j = -1; j < TOTAL_HEIGHT_OBJECT + 1; j++) {
             let X = INITAL_X + i * DISTANCE_BETWEEN_WIDTH_OBJECT;
