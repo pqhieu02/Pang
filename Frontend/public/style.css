@@ -1,0 +1,95 @@
+* {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+}
+
+#menuContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#gameName {
+    margin: 1%;
+    margin-bottom: 5%;
+    font-size: 10vw;
+    color: white;
+}
+
+span {
+    font-size: 1vw;
+    min-height: 3%;
+    color: gainsboro;                                                       
+    font-weight: bold;
+}
+
+#hint {
+    font-size: 1vw;
+    color: gainsboro;
+    font-weight: bold;
+}
+
+#inputName {
+    margin: 1%;
+    padding: 20px;
+    width: 20%;
+    height: 4%;
+    font-size: 2vw;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+    border-radius: 50px;
+    border: 5px solid rgb(112, 80, 173);
+    background-color: rgb(112, 80, 173);
+}
+
+#joinBtn {
+    width: 20%;
+    height: 10%;
+    border-radius: 50px;
+    background-color: green;
+    font-size: 2vw;
+    font-weight: bold;
+    text-decoration: none;
+    border: 3px solid greenyellow;
+    color: gainsboro;
+    cursor: pointer;
+    transition-duration: 0.5s;
+}
+
+#joinBtn:hover {
+    background-color: greenyellow;
+    border: 3px solid green;
+    color: black;
+}
+
+#backgroundCanvas {
+    /* height: 100%; */
+    position: absolute;
+    background-color: black;
+    z-index: -1;
+}
+
+#gameContainer {
+    display: none;
+}
+
+#canvas {
+    position: absolute;
+    /* background-color: black; */
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
