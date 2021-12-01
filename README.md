@@ -1,2 +1,2 @@
 # Pang
-Play this game at [pang.quangnau.com](pang.quangnau.com)!
+Play this game at [pang.quangnau.com](https://pang.quangnau.com/)!
