@@ -24,4 +24,5 @@ export const hintList = [
     "Don't run into other objects!",
 ];
 
-export const BASE_URL = "http://localhost:8080/BallBlast/Entry";
+// export const BASE_URL = "http://localhost:8080/BallBlast/Entry";
+export const BASE_URL = "https://backend.pang.quangnau.com/Entry";

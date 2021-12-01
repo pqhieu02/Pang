@@ -101,13 +101,14 @@ public class World implements Constant {
 		private void detectCollision() {
 			for (int i = 0; i < GRID_WIDTH; i++)
 				for (int j = 0; j < GRID_HEIGHT; j++) {
-					
+
 					LinkedList<GameObject> square = grid.get(i).get(j);
 					for (int x = 0; x < square.size(); x++) {
 						GameObject first = square.get(x);
 						for (int y = x + 1; y < square.size(); y++) {
 							GameObject second = square.get(y);
 							if (isColliding(first, second)) {
+								// isExplosive -> isExplosible
 								if (first.isExplosive()) {
 									double firstX = first.getPositionX();
 									double firstY = first.getPositionY();
@@ -126,7 +127,7 @@ public class World implements Constant {
 
 								if (first.isBouncing() && second.isBouncing())
 									bounce(first, second);
-						
+
 								first.handleCollision(second);
 								second.handleCollision(first);
 							}
@@ -139,7 +140,7 @@ public class World implements Constant {
 
 	private HashMap<String, Player> players = new HashMap<String, Player>();
 	private LinkedList<Mob> mobs = new LinkedList<>();
-	private LinkedList<Bullet> bullets = new LinkedList<>();
+	private LinkedList<Bullet> bullets = new LinkedList<>(); // mutex !!
 	private LinkedList<Particle> particles = new LinkedList<>();
 	private ArrayList<ArrayList<LinkedList<GameObject>>> grid = new ArrayList<>();
 	private CollisionManager collisionManager = new CollisionManager();
@@ -160,6 +161,7 @@ public class World implements Constant {
 	public void init() {
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			@Override
+			// mutex !!!
 			public void run() {
 				addMob();
 			}

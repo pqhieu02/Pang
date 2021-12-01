@@ -9,10 +9,10 @@ const menuContainer = document.getElementById("menuContainer");
 
 joinBtn.onclick = joinGame;
 
-window.onload = () => {
-    initMenu();
-    hintTextAnimation();
-};
+initMenu();
+hintTextAnimation();
+// window.onload = () => {
+// };
 
 function joinGame() {
     joinBtn.onclick = null;
