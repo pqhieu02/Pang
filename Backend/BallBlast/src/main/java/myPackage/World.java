@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 
 public class World implements Constant {
 
-	private class CollisionManagementMethod {
+	private class CollisionManager {
 		private boolean isColliding(GameObject first, GameObject second) {
 			if (first.getSize() <= 0 || second.getSize() <= 0)
 				return false;
@@ -97,10 +97,11 @@ public class World implements Constant {
 			b.setPositionY(b.getPositionY() + y2 * ratio);
 		}
 
+		// use hash map to handle collision once
 		private void detectCollision() {
 			for (int i = 0; i < GRID_WIDTH; i++)
 				for (int j = 0; j < GRID_HEIGHT; j++) {
-
+					
 					LinkedList<GameObject> square = grid.get(i).get(j);
 					for (int x = 0; x < square.size(); x++) {
 						GameObject first = square.get(x);
@@ -125,7 +126,7 @@ public class World implements Constant {
 
 								if (first.isBouncing() && second.isBouncing())
 									bounce(first, second);
-
+						
 								first.handleCollision(second);
 								second.handleCollision(first);
 							}
@@ -141,7 +142,7 @@ public class World implements Constant {
 	private LinkedList<Bullet> bullets = new LinkedList<>();
 	private LinkedList<Particle> particles = new LinkedList<>();
 	private ArrayList<ArrayList<LinkedList<GameObject>>> grid = new ArrayList<>();
-	private CollisionManagementMethod CollisionManager = new CollisionManagementMethod();
+	private CollisionManager collisionManager = new CollisionManager();
 
 	private GameStateForm gameState = new GameStateForm();
 
@@ -224,7 +225,7 @@ public class World implements Constant {
 //		double x = Math.random() * (1000 - PLAYER_SIZE) + PLAYER_SIZE;
 //		double y = Math.random() * (1000 - PLAYER_SIZE) + PLAYER_SIZE;
 
-		while (CollisionManager.isOverlapping(x, y, PLAYER_SPAWN_ZONE_SIZE)) {
+		while (collisionManager.isOverlapping(x, y, PLAYER_SPAWN_ZONE_SIZE)) {
 			x = Math.random() * (WORLD_WIDTH - PLAYER_SIZE) + PLAYER_SIZE;
 			y = Math.random() * (WORLD_HEIGHT - PLAYER_SIZE) + PLAYER_SIZE;
 		}
@@ -271,7 +272,7 @@ public class World implements Constant {
 
 		x = Math.random() * (WORLD_WIDTH - size) + size;
 		y = Math.random() * (WORLD_HEIGHT - size) + size;
-		if (CollisionManager.isOverlapping(x, y, size))
+		if (collisionManager.isOverlapping(x, y, size))
 			return;
 		Mob mob = new Mob(x, y, 1, size, sizeThreshold, color, type);
 		mobs.add(mob);
@@ -354,7 +355,7 @@ public class World implements Constant {
 	}
 
 	public void update() {
-		CollisionManager.detectCollision();
+		collisionManager.detectCollision();
 		removeObjects();
 
 		for (Bullet bullet : bullets) {

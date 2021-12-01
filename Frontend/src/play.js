@@ -20,6 +20,7 @@ async function animate() {
     }
     times.push(now);
     fps = times.length;
+    
     ctx.fillStyle = "white";
     ctx.font = "20px Arial";
     ctx.fillText(fps, 0, 30);

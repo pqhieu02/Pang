@@ -22,37 +22,40 @@ export default class World {
         // background.fillRect(0, 0, canvas.width, canvas.height);
         this.player = new Player(canvas.width / 2, canvas.height / 2);
         this.playerId = playerId;
-        this.gameState;
-        this.gunTrigger;
+        this.gameState = null;
+        this.gunTriggerItv = null;
         this.translateX = 0;
         this.translateY = 0;
         this.background = new Background();
     }
 
     init() {
-        const startFiring = async (cursorX, cursorY) => {
-            let playerX = this.gameState.playerX;
-            let playerY = this.gameState.playerY;
+        // startFiring return interval
+        const startFiring = async (e) => {
+            let { playerX, playerY } = this.gameState;
+            let cursorX = e.clientX;
+            let cursorY = e.clientY;
 
             window.onmousemove = (e) => {
                 cursorX = e.clientX;
                 cursorY = e.clientY;
             };
             await fire(this.playerId, playerX, playerY, cursorX, cursorY);
-            this.gunTrigger = setInterval(async () => {
-                let playerX = this.gameState.playerX;
-                let playerY = this.gameState.playerY;
+            // this.gunTriggerItv = setInterval(async () => {
+            //     let { playerX, playerY } = this.gameState;
+            //     await fire(this.playerId, playerX, playerY, cursorX, cursorY);
+            // }, FIRE_RATE);
+            return setInterval(async () => {
+                let { playerX, playerY } = this.gameState;
                 await fire(this.playerId, playerX, playerY, cursorX, cursorY);
             }, FIRE_RATE);
         };
 
         window.onmousedown = async (e) => {
-            let cursorX = e.clientX;
-            let cursorY = e.clientY;
-            await startFiring(cursorX, cursorY);
+            this.gunTriggerItv = await startFiring(e);
         };
         window.onmouseup = () => {
-            clearInterval(this.gunTrigger);
+            clearInterval(this.gunTriggerItv);
             window.onmousemove = null;
         };
 
@@ -211,7 +214,7 @@ export default class World {
 
     end() {
         this.playerId = null;
-        this.gunTrigger = null;
+        this.gunTriggerItv = null;
         window.onmousedown = null;
         window.onmouseup = null;
         window.onkeydown = null;

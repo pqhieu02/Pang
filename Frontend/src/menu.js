@@ -10,7 +10,7 @@ import {
 
 const OBJECT_RETURN_BASE_LOCATION_SPEED = 0.05;
 
-const ANGLE_ROTATE_SPEED = 0.5;
+const ANGLE_ROTATION_SPEED = 2;
 
 const TOTAL_WIDTH_OBJECT = 20;
 const TOTAL_HEIGHT_OBJECT = 20;
@@ -24,9 +24,9 @@ const DISTANCE_BETWEEN_WIDTH_OBJECT =
     backgroundCanvas.width / TOTAL_WIDTH_OBJECT;
 const DISTANCE_BETWEEN_HEIGHT_OBJECT =
     backgroundCanvas.height / TOTAL_HEIGHT_OBJECT;
-const DEFAULT_SIZE =
-    ((DISTANCE_BETWEEN_WIDTH_OBJECT + DISTANCE_BETWEEN_HEIGHT_OBJECT) / 2) *
-    0.4;
+const DEFAULT_OBJECT_SIZE =
+    Math.min(DISTANCE_BETWEEN_WIDTH_OBJECT, DISTANCE_BETWEEN_HEIGHT_OBJECT) *
+    0.6;
 
 const INITAL_X = DISTANCE_BETWEEN_WIDTH_OBJECT / 2;
 const INITAL_Y = DISTANCE_BETWEEN_HEIGHT_OBJECT / 2;
@@ -42,49 +42,55 @@ const DIRECTION_SOUTH_WEST = 5;
 const DIRECTION_WEST = 6;
 const DIRECTION_NORTH_WEST = 7;
 
-const SHRINK_SPEED = DEFAULT_SIZE / ((MENU_FADE_OUT_DURATION * 60) / 1000);
+const SHRINK_SPEED =
+    DEFAULT_OBJECT_SIZE / ((MENU_FADE_OUT_DURATION * 60) / 1000);
 
-var id;
+const OBJECT_SPEED = 0.25;
+
+var frameId;
 var objects = [];
 var mouse = {
-    x: -backgroundCanvas.width,
+    x: -backgroundCanvas.width, // change
     y: -backgroundCanvas.height,
     radius: 0,
 };
+
 var directions = {
     [DIRECTION_NORTH]: {
         x: 0,
-        y: -0.25,
+        y: -1,
     },
     [DIRECTION_NORTH_EAST]: {
-        x: 0.25,
-        y: -0.25,
+        x: 1,
+        y: -1,
     },
     [DIRECTION_EAST]: {
-        x: 0.25,
+        x: 1,
         y: 0,
     },
     [DIRECTION_SOUTH_EAST]: {
-        x: 0.25,
-        y: 0.25,
+        x: 1,
+        y: 1,
     },
     [DIRECTION_SOUTH]: {
         x: 0,
-        y: 0.25,
+        y: 1,
     },
     [DIRECTION_SOUTH_WEST]: {
-        x: -0.25,
-        y: 0.25,
+        x: -1,
+        y: 1,
     },
     [DIRECTION_WEST]: {
-        x: -0.25,
+        x: -1,
         y: 0,
     },
     [DIRECTION_NORTH_WEST]: {
-        x: -0.25,
-        y: -0.25,
+        x: -1,
+        y: -1,
     },
 };
+
+// change velocity x y to 1, times to a factor
 
 var velocity = {
     x: 0,
@@ -108,21 +114,25 @@ class GameObject {
         this.mass =
             Math.random() * (OBJECT_MASS_MAXIMUM - OBJECT_MASS_MINIMUM) +
             OBJECT_MASS_MINIMUM;
+        // this.mass = mass;
         this.distance = null;
         this.angle = 0;
     }
 
     update() {
-        const getDistance = (a, b, c, d) => {
-            let X = a - c;
-            let Y = b - d;
+        // move getDistance and getSpeed outside gameObject
+        const getDistance = (x0, y0, x1, y2) => {
+            let X = x0 - x1;
+            let Y = y0 - y2;
             let distance = Math.sqrt(X * X + Y * Y) + 1e-5;
             return distance;
         };
 
-        const getSpeed = (a, b, c, d) => {
-            let X = c - a;
-            let Y = d - b;
+        // redo this function
+        const getSpeed = (x0, y0, x1, y1) => {
+            let X = x1 - x0;
+            let Y = y1 - y0;
+            // (mouse.radius - this.distance) / mouse.radius is proportional to the distance between mouse and object => object will move faster when near mouse and move slower when near the mouse
             let speed = {
                 x:
                     (X / this.distance) *
@@ -135,7 +145,8 @@ class GameObject {
         };
 
         let shouldClockwise = velocity.x >= 0 ? 1 : -1;
-        this.angle = (this.angle + ANGLE_ROTATE_SPEED * shouldClockwise) % 360;
+        this.angle =
+            (this.angle + ANGLE_ROTATION_SPEED * shouldClockwise) % 360;
 
         this.size = shouldShrink
             ? Math.max(this.size - SHRINK_SPEED, 0)
@@ -167,7 +178,7 @@ class GameObject {
         this.distance = getDistance(this.x, this.y, mouse.x, mouse.y);
         if (this.distance < mouse.radius) {
             let speed = getSpeed(mouse.x, mouse.y, this.x, this.y);
-            this.x += speed.x * this.mass;
+            this.x += speed.x * this.mass; // rename mass
             this.y += speed.y * this.mass;
         }
         if (this.distance > mouse.radius) {
@@ -175,23 +186,12 @@ class GameObject {
                 ((this.x - mouse.x) / this.distance) * mouse.radius + mouse.x;
             let limitY =
                 ((this.y - mouse.y) / this.distance) * mouse.radius + mouse.y;
-            /**
-             * this.x + X = baseX
-             *  => this.x = baseX - X (1)
-             * dx = this.x - baseX
-             *  => this.x = dx + baseX (2)
-             *
-             * (1)(2)
-             * baseX - X = dx + baseX
-             *  => X = -dx
-             *
-             * ==> this.x - dx = baseX
-             */
-            let dx = this.x - this.baseX;
-            let dy = this.y - this.baseY;
+            // dx = baseX - this.x => this.x = baseX - dx
+            let dx = this.baseX - this.x;
+            let dy = this.baseY - this.y;
 
-            this.x -= dx * OBJECT_RETURN_BASE_LOCATION_SPEED;
-            this.y -= dy * OBJECT_RETURN_BASE_LOCATION_SPEED;
+            this.x += dx * OBJECT_RETURN_BASE_LOCATION_SPEED;
+            this.y += dy * OBJECT_RETURN_BASE_LOCATION_SPEED;
             if (getDistance(this.x, this.y, mouse.x, mouse.y) < mouse.radius) {
                 this.x = limitX;
                 this.y = limitY;
@@ -202,6 +202,7 @@ class GameObject {
     render() {
         let radian = (this.angle * Math.PI) / 180;
 
+        // background to parameter -> for reuse
         background.beginPath();
         background.fillStyle = this.color;
         background.transform(
@@ -258,6 +259,8 @@ class GameObject {
 function randomBackgroundVelocityDirection() {
     let direction = Math.floor(Math.random() * 8);
     velocity = directions[direction];
+    velocity.x *= OBJECT_SPEED;
+    velocity.y *= OBJECT_SPEED;
 }
 
 function initMenu() {
@@ -273,8 +276,8 @@ function initMenu() {
             mouse.radius = Math.min(MOUSE_MAX_RADIUS, mouse.radius + 100);
         }
     };
-    
-    for (let i = -1; i < TOTAL_WIDTH_OBJECT + 1; i++)
+
+    for (let i = -1; i < TOTAL_WIDTH_OBJECT + 1; i++) {
         for (let j = -1; j < TOTAL_HEIGHT_OBJECT + 1; j++) {
             let X = INITAL_X + i * DISTANCE_BETWEEN_WIDTH_OBJECT;
             let Y = INITAL_Y + j * DISTANCE_BETWEEN_HEIGHT_OBJECT;
@@ -282,6 +285,7 @@ function initMenu() {
                 Math.random() * 255
             }, 0.3)`;
             let index = Math.floor(Math.random() * 4);
+            //event driven
             let type;
 
             switch (Math.floor(index % 4)) {
@@ -302,10 +306,11 @@ function initMenu() {
                     break;
                 }
             }
-            let size = DEFAULT_SIZE;
+            let size = DEFAULT_OBJECT_SIZE;
             let object = new GameObject(X, Y, size, color, type);
             objects.push(object);
         }
+    }
     randomBackgroundVelocityDirection();
     directionItv = setInterval(randomBackgroundVelocityDirection, 3000);
     loop();
@@ -318,7 +323,7 @@ function loop() {
         object.update();
         object.render();
     });
-    id = requestAnimationFrame(loop);
+    frameId = requestAnimationFrame(loop);
 }
 
 function endMenu() {
@@ -332,13 +337,12 @@ function endMenu() {
     shouldShrink = true;
     mouse.x = backgroundCanvas.width / 2;
     mouse.y = backgroundCanvas.height / 2;
-    mouse.radius = backgroundCanvas.width;
     mouse.radius = Math.max(backgroundCanvas.width, backgroundCanvas.height);
 }
 
 function cleanBackgroundCanvas() {
     background.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
-    cancelAnimationFrame(id);
+    cancelAnimationFrame(frameId);
 }
 
 export { initMenu, endMenu, cleanBackgroundCanvas };
