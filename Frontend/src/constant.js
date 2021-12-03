@@ -17,7 +17,7 @@ export const TYPE_SQUARE = "SQUARE";
 export const TYPE_CIRCLE = "CIRCLE";
 export const TYPE_TRIANGLE = "TRIANGLE";
 
-export const MENU_FADE_OUT_DURATION = 2000;
+export const MENU_FADE_OUT_DURATION = 1;
 
 export const hintList = [
     "Scroll up or down to change background effect!",
@@ -25,4 +25,4 @@ export const hintList = [
 ];
 
 // export const BASE_URL = "http://localhost:8080/BallBlast/Entry";
-export const BASE_URL = "https://backend.pang.quangnau.com/Entry";
+export const BASE_URL = "https://pang.backend.quangnau.com/BallBlast/Entry";

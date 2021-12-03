@@ -13,6 +13,7 @@
     width: 100%;
     height: 100%;
     z-index: 1;
+    opacity: 0;
 }
 
 #gameName {
@@ -25,7 +26,7 @@
 span {
     font-size: 1vw;
     min-height: 3%;
-    color: gainsboro;                                                       
+    color: gainsboro;
     font-weight: bold;
 }
 
@@ -72,7 +73,7 @@ span {
 #backgroundCanvas {
     /* height: 100%; */
     position: absolute;
-    background-color: white;
+    background-color: black;
     z-index: -1;
 }
 

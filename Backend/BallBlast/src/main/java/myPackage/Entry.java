@@ -13,11 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class Entry extends HttpServlet implements Constant {
 	private static final long serialVersionUID = 1L;
-	private World world = new World();;
-
-//	public Entry() {
-//		super();
-//	}
+	private World world = new World();
 
 	public String requestHandler(ClientRequestDataForm data) {
 		switch (data.action) {
@@ -30,7 +26,6 @@ public class Entry extends HttpServlet implements Constant {
 			double width = data.screenWidth;
 			double height = data.screenHeight;
 			String playerId = world.addPlayer(width, height);
-
 			return playerId;
 		}
 		case ACTION_GET_GAME_STATE: {

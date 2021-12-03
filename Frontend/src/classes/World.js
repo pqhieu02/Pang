@@ -12,15 +12,11 @@ import {
 } from "../constant.js";
 import { fire, setKey, unsetKey } from "../lib/fetchAPI.js";
 import Background from "./Background.js";
-import GameObject from "./GameObject.js";
-import Player from "./Player.js";
-import Stone from "./Stone.js";
 
 export default class World {
     constructor(playerId) {
         background.fillStyle = "rgba(128,128,128,1)";
         // background.fillRect(0, 0, canvas.width, canvas.height);
-        this.player = new Player(canvas.width / 2, canvas.height / 2);
         this.playerId = playerId;
         this.gameState = null;
         this.gunTriggerItv = null;
