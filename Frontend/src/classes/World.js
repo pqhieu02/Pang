@@ -1,22 +1,16 @@
 import {
-    background,
     canvas,
     ctx,
     FIRE_RATE,
-    TYPE_CIRCLE,
-    TYPE_HEXAGON,
-    TYPE_SQUARE,
-    TYPE_TRIANGLE,
     WORLD_HEIGHT,
     WORLD_WIDTH,
 } from "../constant.js";
+import drawObject from "../lib/drawObject.js";
 import { fire, setKey, unsetKey } from "../lib/fetchAPI.js";
 import Background from "./Background.js";
 
 export default class World {
     constructor(playerId) {
-        background.fillStyle = "rgba(128,128,128,1)";
-        // background.fillRect(0, 0, canvas.width, canvas.height);
         this.playerId = playerId;
         this.gameState = null;
         this.gunTriggerItv = null;
@@ -26,7 +20,6 @@ export default class World {
     }
 
     init() {
-        // startFiring return interval
         const startFiring = async (e) => {
             let { playerX, playerY } = this.gameState;
             let cursorX = e.clientX;
@@ -37,10 +30,6 @@ export default class World {
                 cursorY = e.clientY;
             };
             await fire(this.playerId, playerX, playerY, cursorX, cursorY);
-            // this.gunTriggerItv = setInterval(async () => {
-            //     let { playerX, playerY } = this.gameState;
-            //     await fire(this.playerId, playerX, playerY, cursorX, cursorY);
-            // }, FIRE_RATE);
             return setInterval(async () => {
                 let { playerX, playerY } = this.gameState;
                 await fire(this.playerId, playerX, playerY, cursorX, cursorY);
@@ -58,14 +47,14 @@ export default class World {
         window.onkeydown = async (e) => {
             let key = e.key.toLowerCase();
             if (["a", "s", "d", "w"].includes(key)) {
-                this.background.setControllerKey(key, true);
+                // this.background.setControllerKey(key, true);
                 await setKey(this.playerId, key);
             }
         };
         window.onkeyup = async (e) => {
             let key = e.key.toLowerCase();
             if (["a", "s", "d", "w"].includes(key)) {
-                this.background.setControllerKey(key, false);
+                // this.background.setControllerKey(key, false);
                 await unsetKey(this.playerId, key);
             }
         };
@@ -120,68 +109,21 @@ export default class World {
     }
 
     draw(object) {
-        ctx.translate(this.translateX, this.translateY);
-
-        this.drawHpBar(object.x, object.y, object.size, object.hp);
-
-        // Draw object
-        //https://www.khanacademy.org/computing/pixar/sets/rotation/v/sets-9
-        //https://en.wikipedia.org/wiki/Rotation_matrix
-
-        let radian = object.angle * (Math.PI / 180);
-        let size = object.size;
         let HSLColor = `hsl(${object.color.h * 360}, ${
             object.color.s * 100
         }%, ${object.color.l * 100}%)`;
-
-        ctx.beginPath();
-        ctx.transform(
-            Math.cos(radian),
-            Math.sin(radian),
-            Math.sin(radian),
-            -Math.cos(radian),
-            object.x,
-            object.y
-        );
-        switch (object.type) {
-            case TYPE_HEXAGON: {
-                let a = (2 * Math.PI) / 6;
-                let height = size;
-                let centerToVertices = height / (Math.sqrt(3) / 2);
-
-                for (let i = 0; i < 6; i++) {
-                    ctx.lineTo(
-                        centerToVertices * Math.cos(a * i),
-                        centerToVertices * Math.sin(a * i)
-                    );
-                }
-                break;
-            }
-            case TYPE_CIRCLE: {
-                ctx.arc(0, 0, size, 0, Math.PI * 2);
-                break;
-            }
-            case TYPE_SQUARE: {
-                ctx.rect(-size, -size, size * 2, size * 2);
-                break;
-            }
-            case TYPE_TRIANGLE: {
-                let a = size / (Math.sqrt(3) / 6);
-                let height = a * (Math.sqrt(3) / 2);
-                let distanceFromCenterToVertex = height * (2 / 3);
-                let X = 0;
-                let Y = -distanceFromCenterToVertex;
-
-                ctx.moveTo(X, Y);
-                ctx.lineTo(X - a / 2, Y + height);
-                ctx.lineTo(X + a / 2, Y + height);
-                break;
-            }
-        }
-
-        ctx.fillStyle = HSLColor;
-        ctx.fill();
-        ctx.resetTransform();
+        let toDrawObject = {
+            x: object.x,
+            y: object.y,
+            size: object.size,
+            color: HSLColor,
+            type: object.type,
+            angle: object.angle,
+        };
+        
+        ctx.translate(this.translateX, this.translateY);
+        this.drawHpBar(object.x, object.y, object.size, object.hp);
+        drawObject(ctx, toDrawObject);
     }
 
     render() {

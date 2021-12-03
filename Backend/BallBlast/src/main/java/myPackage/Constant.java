@@ -50,8 +50,8 @@ public interface Constant {
 	final int MOB_SPAWN_TIME = 2000;
 	final double MOB_DEFAULT_DAMAGE = 0.01;
 
-	final int MOB_TRIANGLE_MIN_SIZE = 25;
-	final int MOB_TRIANGLE_MAX_SIZE = 30;
+	final int MOB_TRIANGLE_MIN_SIZE = 30;
+	final int MOB_TRIANGLE_MAX_SIZE = 35;
 	final int MOB_TRIANGLE_SIZE_THRESHOLD = 10;
 
 	final int MOB_SQUARE_MIN_SIZE = 30;

@@ -38,10 +38,10 @@ span {
 
 #inputName {
     margin: 1%;
-    padding: 20px;
+    padding: 10px;
     width: 20%;
-    height: 4%;
-    font-size: 2vw;
+    height: 5%;
+    font-size: 3vw;
     font-weight: bold;
     text-align: center;
     outline: none;
@@ -51,8 +51,8 @@ span {
 }
 
 #joinBtn {
-    width: 20%;
-    height: 10%;
+    width: 10%;
+    height: 8%;
     border-radius: 50px;
     background-color: green;
     font-size: 2vw;
@@ -70,20 +70,13 @@ span {
     color: black;
 }
 
-#backgroundCanvas {
-    /* height: 100%; */
-    position: absolute;
-    background-color: black;
-    z-index: -1;
-}
-
 #gameContainer {
     display: none;
 }
 
 #canvas {
     position: absolute;
-    /* background-color: black; */
+    background-color: black;
 }
 
 @keyframes fadeOut {
