@@ -22,4 +22,9 @@ public class myMath {
 		double Y = y + distance * Math.sin(theta);
 		return getVelocity(x, y, X, Y, factor);
 	}
+
+	public static double random(double min, double max) {
+		double number = Math.random() * (max - min) + min;
+		return number;
+	}
 }

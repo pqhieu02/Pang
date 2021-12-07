@@ -30,7 +30,6 @@ async function animate() {
 }
 
 async function play(playerId) {
-    console.log(playerId);
     world = new World(playerId);
     world.init();
     animate();

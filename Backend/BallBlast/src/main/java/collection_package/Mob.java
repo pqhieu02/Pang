@@ -1,4 +1,7 @@
-package myPackage;
+package collection_package;
+
+import myPackage.Constant;
+import myPackage.Velocity;
 
 public class Mob extends GameObject implements Constant {
 	private double expectSize;
@@ -9,6 +12,11 @@ public class Mob extends GameObject implements Constant {
 		this.expectSize = maxSize;
 		this.sizeThreshold = sizeThreshold;
 		getVelocity().setRandomVelocity(x, y, startSize, SPEED.get(SPEED_TARGET_MOB));
+	}
+
+	static public String randomMobType() {
+		String type = MOB_TYPE[(int) (Math.random() * MOB_TYPE.length)];
+		return type;
 	}
 
 	public void handleCollision(GameObject target) {

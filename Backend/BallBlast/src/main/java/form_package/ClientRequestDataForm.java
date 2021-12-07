@@ -1,4 +1,4 @@
-package myPackage;
+package form_package;
 
 public class ClientRequestDataForm {
 	public String action;

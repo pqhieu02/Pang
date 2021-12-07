@@ -1,6 +1,10 @@
-package myPackage;
+package collection_package;
 
 import java.awt.Color;
+
+import form_package.JsonForm;
+import myPackage.Constant;
+import myPackage.Velocity;
 
 public abstract class GameObject implements Constant {
 	private double x;
@@ -13,13 +17,13 @@ public abstract class GameObject implements Constant {
 	private Velocity velocity;
 	private boolean existence;
 	private String type;
-	private boolean isExplosive;
+	private boolean isExplosible;
 	private boolean isBouncing;
 	private double angleDegree;
 	private boolean isClockwise;
 
 	GameObject(double x, double y, double size, double maxSize, double damage, String type, ColorObject color,
-			boolean isExplosive, boolean isBouncing) {
+			boolean isExplosible, boolean isBouncing) {
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -30,11 +34,58 @@ public abstract class GameObject implements Constant {
 		this.existence = true;
 		this.velocity = new Velocity();
 		this.hp = size / maxSize;
-		this.isExplosive = isExplosive;
+		this.isExplosible = isExplosible;
 		this.isBouncing = isBouncing;
 		this.angleDegree = 0;
 		this.isClockwise = true;
 	}
+
+	static public void bounce(GameObject a, GameObject b) {
+		// https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
+		// no mass
+
+		Velocity vA = a.getVelocity();
+		Velocity vB = b.getVelocity();
+
+		double x1 = a.getPositionX() - b.getPositionX();
+		double x2 = b.getPositionX() - a.getPositionX();
+
+		double y1 = a.getPositionY() - b.getPositionY();
+		double y2 = b.getPositionY() - a.getPositionY();
+
+		double d = x1 * x1 + y1 * y1;
+		double dot1 = (vA.getX() - vB.getX()) * x1 + (vA.getY() - vB.getY()) * y1;
+		double dot2 = (vB.getX() - vA.getX()) * x2 + (vB.getY() - vA.getY()) * y2;
+
+		vA.setX(vA.getX() - (dot1 / d) * x1);
+		vA.setY(vA.getY() - (dot1 / d) * y1);
+
+		vB.setX(vB.getX() - (dot2 / d) * x2);
+		vB.setY(vB.getY() - (dot2 / d) * y2);
+
+		double ratio = 1 - Math.sqrt(d) / (a.getSize() + b.getSize());
+		a.setPositionX(a.getPositionX() + x1 * ratio);
+		a.setPositionY(a.getPositionY() + y1 * ratio);
+
+		b.setPositionX(b.getPositionX() + x2 * ratio);
+		b.setPositionY(b.getPositionY() + y2 * ratio);
+	}
+
+	public void update() {
+		x += velocity.getX();
+		y += velocity.getY();
+		x = Math.max(size, Math.min(x, WORLD_WIDTH - size));
+		y = Math.max(size, Math.min(y, WORLD_HEIGHT - size));
+		hp = hp > 0 ? Math.min(1, hp + 0.1f / 60) : hp;
+	}
+
+	// should be renamed
+	public JsonForm getData() {
+		JsonForm data = new JsonForm(x, y, size, color, type, angleDegree, hp);
+		return data;
+	}
+
+	public abstract void handleCollision(GameObject target);
 
 	public void setPositionX(double x) {
 		this.x = x;
@@ -120,12 +171,12 @@ public abstract class GameObject implements Constant {
 		return type;
 	}
 
-	public boolean isExplosive() {
-		return isExplosive;
+	public boolean isExplosible() {
+		return isExplosible;
 	}
 
 	public void setExplosive(boolean isExplosive) {
-		this.isExplosive = isExplosive;
+		this.isExplosible = isExplosive;
 	}
 
 	public boolean isBouncing() {
@@ -151,19 +202,4 @@ public abstract class GameObject implements Constant {
 	public void setClockwise(boolean isClockwise) {
 		this.isClockwise = isClockwise;
 	}
-
-	public void update() {
-		x += velocity.getX();
-		y += velocity.getY();
-		x = Math.max(size, Math.min(x, WORLD_WIDTH - size));
-		y = Math.max(size, Math.min(y, WORLD_HEIGHT - size));
-		hp = hp > 0 ? Math.min(1, hp + 0.1f / 60) : hp;
-	}
-
-	public JsonForm getData() {
-		JsonForm data = new JsonForm(x, y, size, color, type, angleDegree, hp);
-		return data;
-	}
-
-	public abstract void handleCollision(GameObject target);
 }

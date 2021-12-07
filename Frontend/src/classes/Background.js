@@ -9,7 +9,7 @@ import {
 } from "../constant.js";
 import drawObject from "../lib/drawObject.js";
 
-const STEP = 2;
+const STEP = 3;
 const DISTANCE_BETWEEN_WIDTH_OBJECT = canvas.width / BACKGROUND_TOTAL_OBJECT_X;
 const DISTANCE_BETWEEN_HEIGHT_OBJECT =
     canvas.height / BACKGROUND_TOTAL_OBJECT_Y;
@@ -70,6 +70,9 @@ export default class Background {
                 let Y = INITAL_Y + j * DISTANCE_BETWEEN_HEIGHT_OBJECT;
                 let size = DEFAULT_SIZE;
                 let color = `rgba(25, 25, 25, 1)`;
+                // let color = `rgba(${Math.random() * 255}, ${
+                //     Math.random() * 255
+                // }, ${Math.random() * 255}, 0.5)`;
                 let type =
                     OBJECT_TYPE[Math.floor(Math.random() * OBJECT_TYPE.length)];
                 let object = new BackgroundObject(X, Y, size, color, type);

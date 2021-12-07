@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 
 import com.google.gson.Gson;
 
+import collection_package.Player;
+import form_package.ClientRequestDataForm;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,9 +37,10 @@ public class Entry extends HttpServlet implements Constant {
 		}
 		case ACTION_FIRE: {
 			String playerId = data.playerId;
+			Player player = world.getPlayer(playerId);
 			double x = data.x;
 			double y = data.y;
-			world.addBullet(playerId, x, y);
+			world.addBullet(player, x, y);
 			return "ok";
 		}
 		case ACTION_SET_KEY: {

@@ -1,4 +1,6 @@
-package myPackage;
+package form_package;
+
+import collection_package.ColorObject;
 
 public class JsonForm {
 	private double x;
@@ -9,7 +11,7 @@ public class JsonForm {
 	private double angle;
 	private double hp;
 
-	JsonForm(double x, double y, double size, ColorObject color, String type, double angle, double hp) {
+	public JsonForm(double x, double y, double size, ColorObject color, String type, double angle, double hp) {
 		this.x = x;
 		this.y = y;
 		this.size = size;

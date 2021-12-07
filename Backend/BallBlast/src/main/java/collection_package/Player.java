@@ -1,6 +1,9 @@
-package myPackage;
+package collection_package;
 
 import java.util.UUID;
+
+import myPackage.Constant;
+import myPackage.Velocity;
 
 public class Player extends GameObject implements Constant {
 	protected class WASD {

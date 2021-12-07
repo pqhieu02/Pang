@@ -1,4 +1,4 @@
-package myPackage;
+package collection_package;
 
 public class Particle extends GameObject {
 	Particle(double x, double y, double size, ColorObject color, String type) {

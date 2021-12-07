@@ -1,4 +1,4 @@
-package myPackage;
+package collection_package;
 
 import java.awt.Color;
 
@@ -7,7 +7,7 @@ public class ColorObject {
 	private float s;
 	private float l;
 
-	ColorObject(float h, float s, float l) {
+	public ColorObject(float h, float s, float l) {
 		this.h = h;
 		this.s = s;
 		this.l = l;

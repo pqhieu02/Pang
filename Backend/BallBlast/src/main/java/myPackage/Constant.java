@@ -2,13 +2,16 @@ package myPackage;
 
 import java.util.HashMap;
 
+import collection_package.ColorObject;
+import collection_package.MobTypeDatamine;
+
 public interface Constant {
 	final String SPEED_TARGET_MOB = "MOB";
 	final String SPEED_TARGET_BULLET = "BULLET";
 	final String SPEED_TARGET_PARTICLE = "PARTICLE";
-	final HashMap<String, Double> SPEED = new HashMap<String, Double>() {
+	final HashMap<String, Double> SPEED = new HashMap<>() {
 		{
-			put("MOB", 0.5d);
+			put("MOB", 0.3d);
 			put("BULLET", 8d);
 			put("PARTICLE", 10d);
 		}
@@ -18,6 +21,22 @@ public interface Constant {
 	final String TYPE_SQUARE = "SQUARE";
 	final String TYPE_TRIANGLE = "TRIANGLE";
 	final String TYPE_CIRCLE = "CIRCLE";
+	final String[] MOB_TYPE = { TYPE_HEXAGON, TYPE_SQUARE, TYPE_TRIANGLE };
+	final HashMap<String, MobTypeDatamine> OBJECT_TYPE_DATAMINE = new HashMap<>() {
+		{
+			put(TYPE_HEXAGON, new MobTypeDatamine(MOB_HEXAGON_MIN_SIZE, MOB_HEXAGON_MAX_SIZE,
+					MOB_HEXAGON_SIZE_THRESHOLD, HEXAGON_PARTICLE_SIZE));
+
+			put(TYPE_SQUARE, new MobTypeDatamine(MOB_SQUARE_MIN_SIZE, MOB_SQUARE_MAX_SIZE, MOB_SQUARE_SIZE_THRESHOLD,
+					SQUARE_PARTICLE_SIZE));
+
+			put(TYPE_TRIANGLE, new MobTypeDatamine(MOB_TRIANGLE_MIN_SIZE, MOB_TRIANGLE_MAX_SIZE,
+					MOB_TRIANGLE_SIZE_THRESHOLD, TRIANGLE_PARTICLE_SIZE));
+
+			put(TYPE_CIRCLE, new MobTypeDatamine(PLAYER_SIZE, PLAYER_SIZE, 0, CIRCLE_PARTICLE_SIZE));
+		}
+	};
+
 	final double SHRINK_SPEED = 0.5;
 	final double GROW_SPEED = 0.5;
 

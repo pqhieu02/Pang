@@ -1,6 +1,6 @@
 import { canvas, WORLD_HEIGHT, WORLD_WIDTH } from "../constant.js";
 
-export const BASE_URL = "http://localhost:8080/BallBlast/Entry";
+const BASE_URL = "http://localhost:8080/BallBlast/Entry";
 // export const BASE_URL = "https://pang.backend.quangnau.com/Entry";
 
 export async function test(playerId) {
@@ -32,6 +32,7 @@ export async function registerForId() {
     });
     let playerId = await res.text();
     playerId = playerId.replace(/(\r\n|\n|\r)/gm, "");
+    console.log(playerId);
     return playerId;
 }
 

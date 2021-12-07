@@ -1,4 +1,6 @@
-package myPackage;
+package collection_package;
+
+import myPackage.Constant;
 
 public class Bullet extends GameObject implements Constant {
 	private Player gunner;
