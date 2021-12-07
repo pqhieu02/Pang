@@ -27,14 +27,6 @@ public class World implements Constant {
 	private GameStateForm gameState = new GameStateForm();
 
 	World() {
-//		String type = Mob.randomMobType();
-//		System.out.println(type);
-//		if (type != TYPE_HEXAGON) {
-//			System.out.println("Fuck you");
-//		} else {
-//			System.out.println(MOB_TYPE_DATAMINE.get(type));
-//			System.out.println("Nice");
-//		}
 		init();
 	}
 
