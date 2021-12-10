@@ -1,11 +1,11 @@
-package collection_package;
+package collection;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import myPackage.Constant;
+import main.Constant;
 
 public class GameObjectCollection implements Constant {
 	private HashMap<String, Player> players = new HashMap<String, Player>();
@@ -13,12 +13,12 @@ public class GameObjectCollection implements Constant {
 	private LinkedList<Bullet> bullets = new LinkedList<>();
 	private LinkedList<Particle> particles = new LinkedList<>();
 
+	// wrong solution
 	private LinkedList<Mob> mobsQueue = new LinkedList<>();
 	private LinkedList<Bullet> bulletsQueue = new LinkedList<>();
 	private HashMap<String, Player> playersQueue = new HashMap<String, Player>();
 
-	public String addPlayer(double x, double y, double size, ColorObject color, double screenWidth,
-			double screenHeight) {
+	public String addPlayer(double x, double y, double size, Color color, double screenWidth, double screenHeight) {
 		Player player = new Player(x, y, size, color, screenWidth, screenHeight);
 		String playerId = player.getId();
 		playersQueue.put(playerId, player);
@@ -29,25 +29,24 @@ public class GameObjectCollection implements Constant {
 		return players.get(playerId);
 	}
 
-	public int mobsCollectionSize() {
+	public int getMobsCollectionSize() {
 		return mobs.size();
 	}
 
-	public void addRandomMobToQueue(double x, double y, double size, double thresholdSize, ColorObject color,
-			String type) {
+	public void addRandomMobToQueue(double x, double y, double size, double thresholdSize, Color color, String type) {
 		Mob mob = new Mob(x, y, 1, size, thresholdSize, color, type);
 		mobsQueue.add(mob);
 	};
 
 	public void addBulletToQueue(double playerX, double playerY, double destinationX, double destinationY, double size,
-			ColorObject color, Player player) {
+			Color color, Player player) {
 		if (!player.getLifeStatus() || player.isVulnerable())
 			return;
 		Bullet bullet = new Bullet(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR, player);
 		bulletsQueue.add(bullet);
 	}
 
-	public void addParticle(double x, double y, double size, ColorObject color, String type) {
+	public void addParticle(double x, double y, double size, Color color, String type) {
 		Particle particle = new Particle(x, y, size, color, type);
 		particles.add(particle);
 

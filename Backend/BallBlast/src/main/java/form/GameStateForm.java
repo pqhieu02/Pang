@@ -1,12 +1,12 @@
-package form_package;
+package form;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import collection_package.Bullet;
-import collection_package.Mob;
-import collection_package.Particle;
-import collection_package.Player;
+import collection.Bullet;
+import collection.Mob;
+import collection.Particle;
+import collection.Player;
 
 public class GameStateForm {
 	public double playerX;

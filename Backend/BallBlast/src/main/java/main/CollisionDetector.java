@@ -1,14 +1,14 @@
-package myPackage;
+package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import collection_package.Bullet;
-import collection_package.GameObject;
-import collection_package.GameObjectCollection;
-import collection_package.Mob;
-import collection_package.Player;
+import collection.Bullet;
+import collection.GameObject;
+import collection.GameObjectCollection;
+import collection.Mob;
+import collection.Player;
 
 public class CollisionDetector implements Constant {
 	private ArrayList<ArrayList<LinkedList<GameObject>>> grid = new ArrayList<>();

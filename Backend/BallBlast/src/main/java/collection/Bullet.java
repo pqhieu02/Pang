@@ -1,9 +1,9 @@
-package collection_package;
+package collection;
 
 public class Bullet extends GameObject {
 	private Player gunner;
 
-	public Bullet(double x, double y, double destinationX, double destinationY, double size, ColorObject color,
+	public Bullet(double x, double y, double destinationX, double destinationY, double size, Color color,
 			Player gunner) {
 		super(x, y, size, size, BULLET_DEFAULT_DAMAGE, TYPE_CIRCLE, color, false, false);
 		getVelocity().setVelocity(x, y, destinationX, destinationY, SPEED.get(SPEED_TARGET_BULLET));
@@ -26,7 +26,7 @@ public class Bullet extends GameObject {
 				return;
 		}
 		markToBeRemoved();
-	}
+	}// ?????
 
 	public void update() {
 		double x = getPositionX();

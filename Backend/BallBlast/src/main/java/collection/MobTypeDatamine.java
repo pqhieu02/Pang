@@ -1,4 +1,4 @@
-package collection_package;
+package collection;
 
 public class MobTypeDatamine {
 	public final double maxSize;

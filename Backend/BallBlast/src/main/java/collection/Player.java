@@ -1,8 +1,8 @@
-package collection_package;
+package collection;
 
 import java.util.UUID;
 
-import myPackage.Velocity;
+import main.Velocity;
 
 public class Player extends GameObject {
 	protected class WASD {
@@ -66,7 +66,7 @@ public class Player extends GameObject {
 	private double cameraBotX;
 	private double cameraBotY;
 
-	Player(double x, double y, double size, ColorObject color, double screenWidth, double screenHeight) {
+	Player(double x, double y, double size, Color color, double screenWidth, double screenHeight) {
 		super(x, y, 1, size, PLAYER_DEFAULT_DAMAGE, TYPE_CIRCLE, color, true, false);
 		id = UUID.randomUUID().toString();
 		expectSize = size;
@@ -180,7 +180,7 @@ public class Player extends GameObject {
 			Bullet bullet = (Bullet) target;
 			if (bullet.getGunner() == this)
 				return;
-		}
+		} // ????
 		if (isVulnerable || getHp() <= 0)
 			return;
 

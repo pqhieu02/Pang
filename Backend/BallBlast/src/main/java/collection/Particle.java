@@ -1,7 +1,7 @@
-package collection_package;
+package collection;
 
 public class Particle extends GameObject {
-	Particle(double x, double y, double size, ColorObject color, String type) {
+	Particle(double x, double y, double size, Color color, String type) {
 		super(x, y, size, size, 0, type, color, false, false);
 		getVelocity().setX((Math.random() - 0.5) * SPEED.get(SPEED_TARGET_PARTICLE));
 		getVelocity().setY((Math.random() - 0.5) * SPEED.get(SPEED_TARGET_PARTICLE));

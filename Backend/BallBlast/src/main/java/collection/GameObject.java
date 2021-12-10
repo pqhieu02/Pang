@@ -1,17 +1,15 @@
-package collection_package;
+package collection;
 
-import java.awt.Color;
-
-import form_package.JsonForm;
-import myPackage.Constant;
-import myPackage.Velocity;
+import form.JsonForm;
+import main.Constant;
+import main.Velocity;
 
 public abstract class GameObject implements Constant {
 	private double x;
 	private double y;
 	private double size;
 	private double maxSize;
-	private ColorObject color;
+	private Color color;
 	private double damage;
 	private double hp;
 	private Velocity velocity;
@@ -22,7 +20,7 @@ public abstract class GameObject implements Constant {
 	private double angleDegree;
 	private boolean isClockwise;
 
-	GameObject(double x, double y, double size, double maxSize, double damage, String type, ColorObject color,
+	GameObject(double x, double y, double size, double maxSize, double damage, String type, Color color,
 			boolean isExplosible, boolean isBouncing) {
 		this.x = x;
 		this.y = y;
@@ -103,16 +101,12 @@ public abstract class GameObject implements Constant {
 		return y;
 	}
 
-	public void setColorObject(ColorObject color) {
+	public void setColor(Color color) {
 		this.color = color;
 	}
 
-	public ColorObject getColorObject() {
-		return color;
-	}
-
 	public Color getColor() {
-		return color.getColor();
+		return color;
 	}
 
 	public double getDamage() {

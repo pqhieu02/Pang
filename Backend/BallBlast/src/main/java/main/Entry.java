@@ -1,4 +1,4 @@
-package myPackage;
+package main;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,8 +6,8 @@ import java.io.PrintWriter;
 
 import com.google.gson.Gson;
 
-import collection_package.Player;
-import form_package.ClientRequestDataForm;
+import collection.Player;
+import form.ClientRequestDataForm;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

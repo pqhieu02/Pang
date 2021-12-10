@@ -1,4 +1,4 @@
-package myPackage;
+package main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,16 +8,16 @@ import java.util.TimerTask;
 
 import com.google.gson.Gson;
 
-import collection_package.Bullet;
-import collection_package.ColorObject;
-import collection_package.GameObjectCollection;
-import collection_package.Mob;
-import collection_package.MobTypeDatamine;
-import collection_package.Particle;
-import collection_package.Player;
-import form_package.GameStateForm;
-import form_package.ServerResponseDataForm;
-import mathPackage.myMath;
+import collection.Bullet;
+import collection.Color;
+import collection.GameObjectCollection;
+import collection.Mob;
+import collection.MobTypeDatamine;
+import collection.Particle;
+import collection.Player;
+import form.GameStateForm;
+import form.ServerResponseDataForm;
+import math.MyMath;
 
 public class World implements Constant {
 
@@ -32,6 +32,10 @@ public class World implements Constant {
 	}
 
 	public void init() {
+		for (int i = 0; i < WORLD_MOB_LIMIT; i++) {
+			addRandomMob();
+		}
+
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
@@ -45,18 +49,16 @@ public class World implements Constant {
 				addRandomMob();
 			}
 		}, MOB_SPAWN_TIME, MOB_SPAWN_TIME);
-		for (int i = 0; i < WORLD_MOB_LIMIT; i++) {
-			addRandomMob();
-		}
 	}
 
-	public double[] getRandomSpawnCoordinate(double size, double spawn_zone_size) {
+	// class vector
+	public double[] getRandomSpawnCoordinate(double size, double spawnZoneSize) {
 		double x;
 		double y;
 		do {
-			x = myMath.random(size, WORLD_WIDTH - size);
-			y = myMath.random(size, WORLD_HEIGHT - size);
-		} while (collisionDetector.isOverlapping(x, y, spawn_zone_size));
+			x = MyMath.random(size, WORLD_WIDTH - size);
+			y = MyMath.random(size, WORLD_HEIGHT - size);
+		} while (collisionDetector.isOverlapping(x, y, spawnZoneSize));
 		double[] coordinate = { x, y };
 		return coordinate;
 	}
@@ -74,20 +76,20 @@ public class World implements Constant {
 	}
 
 	public void addRandomMob() {
-		if (gameObjectCollection.mobsCollectionSize() >= WORLD_MOB_LIMIT)
+		if (gameObjectCollection.getMobsCollectionSize() >= WORLD_MOB_LIMIT)
 			return;
-		String type = Mob.randomMobType();
-		MobTypeDatamine datamine = OBJECT_TYPE_DATAMINE.get(type);
+		String mobType = Mob.randomMobType();
+		MobTypeDatamine datamine = OBJECT_TYPE_DATAMINE.get(mobType);
 
-		ColorObject color = new ColorObject((float) Math.random(), 1f, 0.5f);
+		Color color = new Color((float) Math.random(), 1f, 0.5f);
 		double thresholdSize = datamine.thresholdSize;
-		double size = myMath.random(datamine.minSize, datamine.maxSize);
+		double size = MyMath.random(datamine.minSize, datamine.maxSize);
 		double coordinate[] = getRandomSpawnCoordinate(size, size);
 		double x = coordinate[0], y = coordinate[1];
-		gameObjectCollection.addRandomMobToQueue(x, y, size, thresholdSize, color, type);
+		gameObjectCollection.addRandomMobToQueue(x, y, size, thresholdSize, color, mobType);
 	};
 
-	public void addParticles(double x, double y, ColorObject color, String type, int n) {
+	public void addParticles(double x, double y, Color color, String type, int n) {
 		MobTypeDatamine datamine = OBJECT_TYPE_DATAMINE.get(type);
 		double particleSize = datamine.particleSize;
 
@@ -100,7 +102,7 @@ public class World implements Constant {
 		double playerX = player.getPositionX();
 		double playerY = player.getPositionY();
 
-		if (!player.getLifeStatus() || player.isVulnerable())
+		if (!player.getLifeStatus() || player.isVulnerable()) // Wrong method name ???
 			return;
 
 		gameObjectCollection.addBulletToQueue(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR,

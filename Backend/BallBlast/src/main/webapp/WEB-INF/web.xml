@@ -9,7 +9,7 @@
   	<servlet-name>Entry</servlet-name>
   	<display-name>Entry</display-name>
   	<description></description>
-  	<servlet-class>myPackage.Entry</servlet-class>
+  	<servlet-class>main.Entry</servlet-class>
   </servlet>
   <servlet-mapping>
   	<servlet-name>Entry</servlet-name>

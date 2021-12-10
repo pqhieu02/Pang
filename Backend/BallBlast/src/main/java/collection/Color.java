@@ -1,21 +1,14 @@
-package collection_package;
+package collection;
 
-import java.awt.Color;
-
-public class ColorObject {
+public class Color {
 	private float h;
 	private float s;
 	private float l;
 
-	public ColorObject(float h, float s, float l) {
+	public Color(float h, float s, float l) {
 		this.h = h;
 		this.s = s;
 		this.l = l;
-	}
-
-	public Color getColor() {
-		Color color = Color.getHSBColor(h, s, l);
-		return color;
 	}
 
 }

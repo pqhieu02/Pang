@@ -1,9 +1,9 @@
-package myPackage;
+package main;
 
-import collection_package.Bullet;
-import collection_package.ColorObject;
-import collection_package.GameObject;
-import collection_package.Player;
+import collection.Bullet;
+import collection.Color;
+import collection.GameObject;
+import collection.Player;
 
 public class CollisionHandler implements Constant {
 	public void run(World world, GameObject first, GameObject second) {
@@ -23,7 +23,7 @@ public class CollisionHandler implements Constant {
 		if (first.isExplosible()) {
 			double firstX = first.getPositionX();
 			double firstY = first.getPositionY();
-			ColorObject firstColor = first.getColorObject();
+			Color firstColor = first.getColor();
 			String type = first.getType();
 			world.addParticles(firstX, firstY, firstColor, type, COLLISION_PARTICLE_TOTAL);
 		}
@@ -31,7 +31,7 @@ public class CollisionHandler implements Constant {
 		if (second.isExplosible()) {
 			double secondX = second.getPositionX();
 			double secondY = second.getPositionY();
-			ColorObject secondColor = second.getColorObject();
+			Color secondColor = second.getColor();
 			String type = second.getType();
 			world.addParticles(secondX, secondY, secondColor, type, COLLISION_PARTICLE_TOTAL);
 		}

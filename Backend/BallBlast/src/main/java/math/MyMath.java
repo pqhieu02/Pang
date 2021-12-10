@@ -1,6 +1,6 @@
-package mathPackage;
+package math;
 
-public class myMath {
+public class MyMath {
 	public static double getMag(double a, double b, double c, double d) {
 		double X = c - a;
 		double Y = d - b;

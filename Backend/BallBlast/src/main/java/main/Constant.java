@@ -1,19 +1,20 @@
-package myPackage;
+package main;
 
 import java.util.HashMap;
 
-import collection_package.ColorObject;
-import collection_package.MobTypeDatamine;
+import collection.Color;
+import collection.MobTypeDatamine;
 
+// To class
 public interface Constant {
 	final String SPEED_TARGET_MOB = "MOB";
 	final String SPEED_TARGET_BULLET = "BULLET";
 	final String SPEED_TARGET_PARTICLE = "PARTICLE";
 	final HashMap<String, Double> SPEED = new HashMap<>() {
 		{
-			put("MOB", 0.3d);
-			put("BULLET", 8d);
-			put("PARTICLE", 10d);
+			put(SPEED_TARGET_MOB, 0.3d);
+			put(SPEED_TARGET_BULLET, 8d);
+			put(SPEED_TARGET_PARTICLE, 10d);
 		}
 	};
 
@@ -52,7 +53,7 @@ public interface Constant {
 	final double GRID_HEIGHT = WORLD_HEIGHT / GRID_SQUARE_SIZE;
 
 	final int PLAYER_SPAWN_ZONE_SIZE = 100;
-	final ColorObject PLAYER_COLOR = new ColorObject(1f, 1f, 1f);
+	final Color PLAYER_COLOR = new Color(1f, 1f, 1f);
 	final double PLAYER_SIZE = 30;
 	final int PLAYER_STEP = 5;
 	final double PLAYER_DEFAULT_MAX_HP = 100;
@@ -61,7 +62,7 @@ public interface Constant {
 	final int FIRE_RATE = 1000;
 	final double PLAYER_DEFAULT_DAMAGE = 0.1;
 
-	final ColorObject BULLET_COLOR = new ColorObject(1f, 1f, 1f);
+	final Color BULLET_COLOR = new Color(1f, 1f, 1f);
 	final int BULLET_SIZE = 5;
 	final double BULLET_DEFAULT_DAMAGE = 0.1;
 	final double BULLET_FRICTION = 0.99;

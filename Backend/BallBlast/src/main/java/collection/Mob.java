@@ -1,12 +1,12 @@
-package collection_package;
+package collection;
 
-import myPackage.Velocity;
+import main.Velocity;
 
 public class Mob extends GameObject {
 	private double expectSize;
 	private double sizeThreshold;
 
-	public Mob(double x, double y, double startSize, double maxSize, double sizeThreshold, ColorObject color,
+	public Mob(double x, double y, double startSize, double maxSize, double sizeThreshold, Color color,
 			String type) {
 		super(x, y, startSize, maxSize, MOB_DEFAULT_DAMAGE, type, color, true, true);
 		this.expectSize = maxSize;
