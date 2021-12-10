@@ -47,6 +47,7 @@ export default class World {
         window.onkeydown = async (e) => {
             let key = e.key.toLowerCase();
             if (["a", "s", "d", "w"].includes(key)) {
+                console.log(1);
                 this.background.setControllerKey(key, true);
                 await setKey(this.playerId, key);
             }

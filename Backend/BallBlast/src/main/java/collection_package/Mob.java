@@ -1,13 +1,13 @@
 package collection_package;
 
-import myPackage.Constant;
 import myPackage.Velocity;
 
-public class Mob extends GameObject implements Constant {
+public class Mob extends GameObject {
 	private double expectSize;
 	private double sizeThreshold;
 
-	Mob(double x, double y, double startSize, double maxSize, double sizeThreshold, ColorObject color, String type) {
+	public Mob(double x, double y, double startSize, double maxSize, double sizeThreshold, ColorObject color,
+			String type) {
 		super(x, y, startSize, maxSize, MOB_DEFAULT_DAMAGE, type, color, true, true);
 		this.expectSize = maxSize;
 		this.sizeThreshold = sizeThreshold;

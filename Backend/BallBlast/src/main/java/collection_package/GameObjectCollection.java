@@ -13,11 +13,15 @@ public class GameObjectCollection implements Constant {
 	private LinkedList<Bullet> bullets = new LinkedList<>();
 	private LinkedList<Particle> particles = new LinkedList<>();
 
+	private LinkedList<Mob> mobsQueue = new LinkedList<>();
+	private LinkedList<Bullet> bulletsQueue = new LinkedList<>();
+	private HashMap<String, Player> playersQueue = new HashMap<String, Player>();
+
 	public String addPlayer(double x, double y, double size, ColorObject color, double screenWidth,
 			double screenHeight) {
 		Player player = new Player(x, y, size, color, screenWidth, screenHeight);
 		String playerId = player.getId();
-		players.put(playerId, player);
+		playersQueue.put(playerId, player);
 		return playerId;
 	}
 
@@ -29,27 +33,26 @@ public class GameObjectCollection implements Constant {
 		return mobs.size();
 	}
 
-	public void addRandomMob(double x, double y, double size, double sizeThreshold, ColorObject color, String type) {
-		Mob mob = new Mob(x, y, 1, size, sizeThreshold, color, type);
-		mobs.add(mob);
+	public void addRandomMobToQueue(double x, double y, double size, double thresholdSize, ColorObject color,
+			String type) {
+		Mob mob = new Mob(x, y, 1, size, thresholdSize, color, type);
+		mobsQueue.add(mob);
 	};
 
-	public void addParticles(double x, double y, double size, ColorObject color, String type) {
+	public void addBulletToQueue(double playerX, double playerY, double destinationX, double destinationY, double size,
+			ColorObject color, Player player) {
+		if (!player.getLifeStatus() || player.isVulnerable())
+			return;
+		Bullet bullet = new Bullet(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR, player);
+		bulletsQueue.add(bullet);
+	}
+
+	public void addParticle(double x, double y, double size, ColorObject color, String type) {
 		Particle particle = new Particle(x, y, size, color, type);
 		particles.add(particle);
 
 	}
 
-	public void addBullet(double playerX, double playerY, double destinationX, double destinationY, double size,
-			ColorObject color, Player player) {
-		if (!player.getLifeStatus() || player.isVulnerable())
-			return;
-		Bullet bullet = new Bullet(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR, player);
-		bullets.add(bullet);
-	}
-
-	// rename this
-	// singleton pattern
 	public void removeObjects() {
 		ListIterator<Mob> Mob_it = mobs.listIterator();
 		while (Mob_it.hasNext()) {
@@ -86,6 +89,23 @@ public class GameObjectCollection implements Constant {
 				Particle_it.remove();
 			}
 		}
+	}
+
+	public void addGameObjectInQueueToWorld() {
+		for (Mob mob : mobsQueue) {
+			mobs.add(mob);
+		}
+		for (Bullet bullet : bulletsQueue) {
+			bullets.add(bullet);
+		}
+		for (String id : playersQueue.keySet()) {
+			Player player = playersQueue.get(id);
+			players.put(id, player);
+			System.out.println("Added " + id + " to collection GameObject 107");
+		}
+		mobsQueue.clear();
+		bulletsQueue.clear();
+		playersQueue.clear();
 	}
 
 	public void update() {

@@ -2,10 +2,9 @@ package collection_package;
 
 import java.util.UUID;
 
-import myPackage.Constant;
 import myPackage.Velocity;
 
-public class Player extends GameObject implements Constant {
+public class Player extends GameObject {
 	protected class WASD {
 		private boolean w = false;
 		private boolean a = false;
@@ -52,10 +51,11 @@ public class Player extends GameObject implements Constant {
 		}
 	}
 
+	private String name;
+	private double score;
 	protected WASD controller = new WASD();
 	private String id;
 	private boolean lifeStatus;
-	private double score;
 	private double expectSize;
 
 	private boolean isVulnerable;

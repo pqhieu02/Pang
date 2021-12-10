@@ -32,7 +32,6 @@ export async function registerForId() {
     });
     let playerId = await res.text();
     playerId = playerId.replace(/(\r\n|\n|\r)/gm, "");
-    console.log(playerId);
     return playerId;
 }
 

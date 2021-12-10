@@ -1,11 +1,9 @@
 package collection_package;
 
-import myPackage.Constant;
-
-public class Bullet extends GameObject implements Constant {
+public class Bullet extends GameObject {
 	private Player gunner;
 
-	Bullet(double x, double y, double destinationX, double destinationY, double size, ColorObject color,
+	public Bullet(double x, double y, double destinationX, double destinationY, double size, ColorObject color,
 			Player gunner) {
 		super(x, y, size, size, BULLET_DEFAULT_DAMAGE, TYPE_CIRCLE, color, false, false);
 		getVelocity().setVelocity(x, y, destinationX, destinationY, SPEED.get(SPEED_TARGET_BULLET));

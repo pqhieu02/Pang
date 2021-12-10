@@ -14,7 +14,7 @@ const ANGLE_ROTATION_SPEED = 2;
 const MOUSE_MAX_RADIUS = 1000;
 const MOUSE_MIN_RADIUS = 0;
 
-const OBJECT_SPEED = 0.25;
+const OBJECT_SPEED = 0.5;
 
 const directions = [
     {
@@ -191,7 +191,7 @@ function initMenu(target_context, target_canvas) {
             Math.min(
                 DISTANCE_BETWEEN_WIDTH_OBJECT,
                 DISTANCE_BETWEEN_HEIGHT_OBJECT
-            ) * 0.35;
+            ) * 0.3;
 
         SHRINK_SPEED =
             DEFAULT_OBJECT_SIZE / ((MENU_FADE_OUT_DURATION * 60) / 1000);

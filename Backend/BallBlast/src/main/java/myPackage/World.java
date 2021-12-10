@@ -24,6 +24,7 @@ public class World implements Constant {
 	private GameObjectCollection gameObjectCollection = new GameObjectCollection();
 	private CollisionHandler collisionHandler = new CollisionHandler();
 	private CollisionDetector collisionDetector = new CollisionDetector(this, collisionHandler);
+
 	private GameStateForm gameState = new GameStateForm();
 
 	World() {
@@ -38,13 +39,12 @@ public class World implements Constant {
 			}
 		}, 0, 1000 / 60);
 
-//		new Timer().scheduleAtFixedRate(new TimerTask() {
-//			@Override
-//			// mutex !!!
-//			public void run() {
-//				addRandomMob();
-//			}
-//		}, MOB_SPAWN_TIME, MOB_SPAWN_TIME);
+		new Timer().scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				addRandomMob();
+			}
+		}, MOB_SPAWN_TIME, MOB_SPAWN_TIME);
 		for (int i = 0; i < WORLD_MOB_LIMIT; i++) {
 			addRandomMob();
 		}
@@ -84,8 +84,7 @@ public class World implements Constant {
 		double size = myMath.random(datamine.minSize, datamine.maxSize);
 		double coordinate[] = getRandomSpawnCoordinate(size, size);
 		double x = coordinate[0], y = coordinate[1];
-
-		gameObjectCollection.addRandomMob(x, y, size, thresholdSize, color, type);
+		gameObjectCollection.addRandomMobToQueue(x, y, size, thresholdSize, color, type);
 	};
 
 	public void addParticles(double x, double y, ColorObject color, String type, int n) {
@@ -93,7 +92,7 @@ public class World implements Constant {
 		double particleSize = datamine.particleSize;
 
 		for (int i = 0; i < n; i++) {
-			gameObjectCollection.addParticles(x, y, particleSize, color, type);
+			gameObjectCollection.addParticle(x, y, particleSize, color, type);
 		}
 	}
 
@@ -104,10 +103,12 @@ public class World implements Constant {
 		if (!player.getLifeStatus() || player.isVulnerable())
 			return;
 
-		gameObjectCollection.addBullet(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR, player);
+		gameObjectCollection.addBulletToQueue(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR,
+				player);
 	}
 
 	public void update() {
+		gameObjectCollection.addGameObjectInQueueToWorld();
 		collisionDetector.updateGrid();
 		collisionDetector.detectCollision();
 		gameObjectCollection.update();
@@ -129,7 +130,7 @@ public class World implements Constant {
 	public String getGameState(String playerId) {
 		ServerResponseDataForm response = new ServerResponseDataForm();
 		Gson gson = new Gson();
-		Player player = getPlayer(playerId);
+		Player player = gameState.players.get(playerId);
 		double cameraTopX = player.getCameraTopX();
 		double cameraTopY = player.getCameraTopY();
 		double cameraBotX = player.getCameraBotX();

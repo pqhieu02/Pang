@@ -53,25 +53,6 @@ public class CollisionDetector implements Constant {
 		}
 	}
 
-	public void removeObjectFromGrid(GameObject obj) {
-		double x = obj.getPositionX();
-		double y = obj.getPositionY();
-		double size = obj.getSize();
-
-		int startX = (int) Math.max(0, Math.floor((x - size) / GRID_SQUARE_SIZE));
-		int startY = (int) Math.max(0, Math.floor((y - size) / GRID_SQUARE_SIZE));
-		int endX = (int) Math.min(GRID_WIDTH - 1, Math.floor((x + size) / GRID_SQUARE_SIZE));
-		int endY = (int) Math.min(GRID_HEIGHT - 1, Math.floor((y + size) / GRID_SQUARE_SIZE));
-
-		for (int i = startX; i <= endX; i++) {
-			for (int j = startY; j <= endY; j++) {
-				LinkedList<GameObject> square = grid.get(i).get(j);
-				square.remove(obj);
-			}
-		}
-
-	}
-
 	public boolean isColliding(GameObject first, GameObject second) {
 		if (first.getSize() <= 0 || second.getSize() <= 0)
 			return false;
@@ -101,12 +82,14 @@ public class CollisionDetector implements Constant {
 		int endX = (int) Math.min(GRID_WIDTH - 1, Math.floor((x + size) / GRID_SQUARE_SIZE));
 		int endY = (int) Math.min(GRID_HEIGHT - 1, Math.floor((y + size) / GRID_SQUARE_SIZE));
 
-		for (int i = startX; i <= endX; i++) {
-			for (int j = startY; j <= endY; j++) {
-				LinkedList<GameObject> square = grid.get(i).get(j);
-				for (GameObject target : square) {
-					if (isColliding(x, y, size, target))
-						return true;
+		synchronized (grid) {
+			for (int i = startX; i <= endX; i++) {
+				for (int j = startY; j <= endY; j++) {
+					LinkedList<GameObject> square = grid.get(i).get(j);
+					for (GameObject target : square) {
+						if (isColliding(x, y, size, target))
+							return true;
+					}
 				}
 			}
 		}
@@ -114,10 +97,12 @@ public class CollisionDetector implements Constant {
 	}
 
 	public void clearGrid() {
-		for (int i = 0; i < GRID_WIDTH; i++) {
-			for (int j = 0; j < GRID_HEIGHT; j++) {
-				LinkedList<GameObject> square = grid.get(i).get(j);
-				square.clear();
+		synchronized (grid) {
+			for (int i = 0; i < GRID_WIDTH; i++) {
+				for (int j = 0; j < GRID_HEIGHT; j++) {
+					LinkedList<GameObject> square = grid.get(i).get(j);
+					square.clear();
+				}
 			}
 		}
 	}
@@ -129,18 +114,20 @@ public class CollisionDetector implements Constant {
 		HashMap<String, Player> players = gameObjectCollection.getPlayers();
 
 		clearGrid();
-		for (Mob mob : mobs) {
-			addObjectToGrid(mob);
-		}
-		for (Bullet bullet : bullets) {
-			addObjectToGrid(bullet);
-		}
-		for (String playerId : players.keySet()) {
-			Player player = players.get(playerId);
+		synchronized (grid) {
+			for (Mob mob : mobs) {
+				addObjectToGrid(mob);
+			}
+			for (Bullet bullet : bullets) {
+				addObjectToGrid(bullet);
+			}
+			for (String playerId : players.keySet()) {
+				Player player = players.get(playerId);
 
-			if (!player.getLifeStatus())
-				continue;
-			addObjectToGrid(player);
+				if (!player.getLifeStatus())
+					continue;
+				addObjectToGrid(player);
+			}
 		}
 	}
 

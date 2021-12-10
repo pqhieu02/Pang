@@ -65,7 +65,6 @@ function joinGame() {
         cleanCanvas();
         menuContainer.style.display = "none";
         let playerId = await registerForId();
-        console.log(playerId);
         play(playerId);
     }, MENU_FADE_OUT_DURATION);
 }

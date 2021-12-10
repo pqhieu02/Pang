@@ -2,6 +2,7 @@ package form_package;
 
 import collection_package.ColorObject;
 
+@SuppressWarnings("unused")
 public class JsonForm {
 	private double x;
 	private double y;
