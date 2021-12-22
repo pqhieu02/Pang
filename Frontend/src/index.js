@@ -11,46 +11,6 @@ const hint = document.getElementById("hint");
 
 joinBtn.onclick = joinGame;
 
-async function main() {
-    let playerId = await registerForId();
-    // console.log(playerId);
-    play(playerId);
-}
-
-// main();
-// let a = new Background();
-// let x = 30;
-// let y = 30;
-// let size = 30;
-
-// function animate() {
-//     let player = {
-//         x: x,
-//         y: y,
-//         size: size,
-//     };
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     a.update(player);
-//     a.render();
-//     requestAnimationFrame(animate);
-// }
-
-// window.onkeydown = async (e) => {
-//     let key = e.key.toLowerCase();
-//     if (["a", "s", "d", "w"].includes(key)) {
-
-//         a.setControllerKey(key, true);
-//     }
-// };
-// window.onkeyup = async (e) => {
-//     let key = e.key.toLowerCase();
-//     if (["a", "s", "d", "w"].includes(key)) {
-//         a.setControllerKey(key, false);
-//     }
-// };
-
-// animate();
-
 window.onload = () => {
     menuContainer.style.opacity = 1;
     initMenu(ctx, canvas);

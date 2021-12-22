@@ -3,14 +3,14 @@ package collection;
 import main.Velocity;
 
 public class Mob extends GameObject {
-	private double expectSize;
-	private double sizeThreshold;
+	private double thresholdSize;
+	private boolean isSpawning;
 
-	public Mob(double x, double y, double startSize, double maxSize, double sizeThreshold, Color color,
-			String type) {
+	public Mob(double x, double y, double startSize, double maxSize, double sizeThreshold, Color color, String type) {
 		super(x, y, startSize, maxSize, MOB_DEFAULT_DAMAGE, type, color, true, true);
-		this.expectSize = maxSize;
-		this.sizeThreshold = sizeThreshold;
+		this.thresholdSize = sizeThreshold;
+		isSpawning = true;
+		// move outside
 		getVelocity().setRandomVelocity(x, y, startSize, SPEED.get(SPEED_TARGET_MOB));
 	}
 
@@ -23,14 +23,13 @@ public class Mob extends GameObject {
 		if (target instanceof Mob)
 			return;
 		double hp = getHp();
-		double maxSize = getMaxSize();
 		double damage = target.getDamage();
 
 		if (hp <= 0)
 			return;
 
 		hp = Math.max(0, hp - damage);
-		expectSize = hp > 0 ? (maxSize - sizeThreshold) * hp + sizeThreshold : 0;
+
 		setHp(hp);
 	}
 
@@ -44,17 +43,17 @@ public class Mob extends GameObject {
 		boolean isClockwise = isClockwise();
 		double hp = getHp();
 
-		if (size <= 0) {
+		if (hp <= 0) {
 			markToBeRemoved();
 			return;
 		}
 
-		if (expectSize < size) {
-			size = Math.max(size - SHRINK_SPEED, 0);
+		if (isSpawning) {
+			hp = Math.max(hp + 0.1, 1);
+			isSpawning = hp >= 1 ? false : isSpawning;
+
 		}
-		if (expectSize > size) {
-			size += GROW_SPEED;
-		}
+		size = thresholdSize + (maxSize - thresholdSize) * hp;
 
 		if (x - size <= 0 || x + size >= WORLD_WIDTH)
 			velocity.setX(velocity.getX() * -1);
@@ -68,7 +67,6 @@ public class Mob extends GameObject {
 			isClockwise = false;
 
 		angle = isClockwise ? angle + ANGLE_ROTATE_SPEED : angle - ANGLE_ROTATE_SPEED;
-		hp = Math.max(0, (size - sizeThreshold)) / (maxSize - sizeThreshold);
 
 		setSize(size);
 		setVelocity(velocity);

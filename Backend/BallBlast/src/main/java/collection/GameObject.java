@@ -77,7 +77,6 @@ public abstract class GameObject implements Constant {
 		hp = hp > 0 ? Math.min(1, hp + 0.1f / 60) : hp;
 	}
 
-	// should be renamed
 	public JsonForm getData() {
 		JsonForm data = new JsonForm(x, y, size, color, type, angleDegree, hp);
 		return data;
@@ -169,8 +168,8 @@ public abstract class GameObject implements Constant {
 		return isExplosible;
 	}
 
-	public void setExplosive(boolean isExplosive) {
-		this.isExplosible = isExplosive;
+	public void setExplosible(boolean isExplosible) {
+		this.isExplosible = isExplosible;
 	}
 
 	public boolean isBouncing() {

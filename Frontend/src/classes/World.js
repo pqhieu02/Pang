@@ -37,9 +37,11 @@ export default class World {
         };
 
         window.onmousedown = async (e) => {
+            if (e.button !== 0) return;
             this.gunTriggerItv = await startFiring(e);
         };
-        window.onmouseup = () => {
+        window.onmouseup = (e) => {
+            if (e.button !== 0) return;
             clearInterval(this.gunTriggerItv);
             window.onmousemove = null;
         };
@@ -121,7 +123,7 @@ export default class World {
             type: object.type,
             angle: object.angle,
         };
-        
+
         ctx.translate(this.translateX, this.translateY);
         this.drawHpBar(object.x, object.y, object.size, object.hp);
         drawObject(ctx, toDrawObject);

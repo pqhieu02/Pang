@@ -13,7 +13,7 @@ public interface Constant {
 	final HashMap<String, Double> SPEED = new HashMap<>() {
 		{
 			put(SPEED_TARGET_MOB, 0.3d);
-			put(SPEED_TARGET_BULLET, 8d);
+			put(SPEED_TARGET_BULLET, 10d);
 			put(SPEED_TARGET_PARTICLE, 10d);
 		}
 	};
@@ -68,7 +68,7 @@ public interface Constant {
 	final double BULLET_FRICTION = 0.99;
 
 	final int MOB_SPAWN_TIME = 2000;
-	final double MOB_DEFAULT_DAMAGE = 0.01;
+	final double MOB_DEFAULT_DAMAGE = 0.05;
 
 	final int MOB_TRIANGLE_MIN_SIZE = 30;
 	final int MOB_TRIANGLE_MAX_SIZE = 35;

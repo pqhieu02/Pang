@@ -23,8 +23,7 @@ export const OBJECT_TYPE = [
 export const BACKGROUND_TOTAL_OBJECT_X = 20;
 export const BACKGROUND_TOTAL_OBJECT_Y = 20;
 
-// export const MENU_FADE_OUT_DURATION = 2000;
-export const MENU_FADE_OUT_DURATION = 1;
+export const MENU_FADE_OUT_DURATION = 2000;
 
 export const hintList = [
     "Scroll up or down to change background effect!",

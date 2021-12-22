@@ -10,23 +10,9 @@ public class Bullet extends GameObject {
 		this.gunner = gunner;
 	}
 
-	public Player getGunner() {
-		return gunner;
-	}
-
 	public void handleCollision(GameObject target) {
-		if (target instanceof Player) {
-			Player player = (Player) target;
-			if (player == this.gunner)
-				return;
-		}
-		if (target instanceof Bullet) {
-			Bullet bullet = (Bullet) target;
-			if (bullet.getGunner() == this.gunner)
-				return;
-		}
 		markToBeRemoved();
-	}// ?????
+	}
 
 	public void update() {
 		double x = getPositionX();
@@ -48,5 +34,9 @@ public class Bullet extends GameObject {
 		getVelocity().setY(velocityY);
 
 		super.update();
+	}
+
+	public Player getGunner() {
+		return gunner;
 	}
 }

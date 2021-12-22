@@ -1,5 +1,6 @@
 package main;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -51,7 +52,6 @@ public class World implements Constant {
 		}, MOB_SPAWN_TIME, MOB_SPAWN_TIME);
 	}
 
-	// class vector
 	public double[] getRandomSpawnCoordinate(double size, double spawnZoneSize) {
 		double x;
 		double y;
@@ -67,6 +67,8 @@ public class World implements Constant {
 		double size = PLAYER_SIZE;
 		double coordinate[] = getRandomSpawnCoordinate(size, PLAYER_SPAWN_ZONE_SIZE);
 		double x = coordinate[0], y = coordinate[1];
+		x = 100;
+		y = 100;
 		String playerId = gameObjectCollection.addPlayer(x, y, size, PLAYER_COLOR, screenWidth, screenHeight);
 		return playerId;
 	}
@@ -102,7 +104,7 @@ public class World implements Constant {
 		double playerX = player.getPositionX();
 		double playerY = player.getPositionY();
 
-		if (!player.getLifeStatus() || player.isVulnerable()) // Wrong method name ???
+		if (!player.isAlive() || player.isVulnerable())
 			return;
 
 		gameObjectCollection.addBulletToQueue(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR,
@@ -133,6 +135,8 @@ public class World implements Constant {
 		ServerResponseDataForm response = new ServerResponseDataForm();
 		Gson gson = new Gson();
 		Player player = gameState.players.get(playerId);
+		player.updateHeartBeat(LocalDateTime.now());
+
 		double cameraTopX = player.getCameraTopX();
 		double cameraTopY = player.getCameraTopY();
 		double cameraBotX = player.getCameraBotX();
@@ -173,8 +177,6 @@ public class World implements Constant {
 		}
 		for (String id : gameState.players.keySet()) {
 			Player other = gameState.players.get(id);
-			if (!other.getLifeStatus()) // ???
-				continue;
 
 			double x = other.getPositionX();
 			double y = other.getPositionY();

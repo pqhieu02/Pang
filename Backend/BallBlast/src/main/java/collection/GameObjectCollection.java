@@ -40,7 +40,7 @@ public class GameObjectCollection implements Constant {
 
 	public void addBulletToQueue(double playerX, double playerY, double destinationX, double destinationY, double size,
 			Color color, Player player) {
-		if (!player.getLifeStatus() || player.isVulnerable())
+		if (!player.isAlive() || player.isVulnerable())
 			return;
 		Bullet bullet = new Bullet(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR, player);
 		bulletsQueue.add(bullet);
@@ -66,7 +66,7 @@ public class GameObjectCollection implements Constant {
 		while (Bullet_it.hasNext()) {
 			Bullet bullet = (Bullet) Bullet_it.next();
 			Player gunner = bullet.getGunner();
-			if (!bullet.isExisting() || !gunner.getLifeStatus()) {
+			if (!bullet.isExisting() || !gunner.isAlive()) {
 				Bullet_it.remove();
 
 			}
@@ -100,7 +100,6 @@ public class GameObjectCollection implements Constant {
 		for (String id : playersQueue.keySet()) {
 			Player player = playersQueue.get(id);
 			players.put(id, player);
-			System.out.println("Added " + id + " to collection GameObject 107");
 		}
 		mobsQueue.clear();
 		bulletsQueue.clear();
@@ -122,10 +121,6 @@ public class GameObjectCollection implements Constant {
 
 		for (String playerId : players.keySet()) {
 			Player player = players.get(playerId);
-
-			// rename getLifeStatus -> isAlive ?
-			if (!player.getLifeStatus())
-				continue;
 			player.update();
 		}
 	}

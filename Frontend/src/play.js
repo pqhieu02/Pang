@@ -6,6 +6,7 @@ let world;
 
 var fps;
 var times = [];
+var flag = false;
 
 async function animate() {
     let playerId = world.playerId;
@@ -30,6 +31,11 @@ async function animate() {
 }
 
 async function play(playerId) {
+    // setTimeout(() => (ctx.globalAlpha = 0), 3000);
+    // setInterval(() => {
+    //     ctx.globalAlpha = 0.1;
+    // }, 500);
+
     world = new World(playerId);
     world.init();
     animate();

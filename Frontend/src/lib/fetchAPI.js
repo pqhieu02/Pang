@@ -1,8 +1,7 @@
 import { canvas, WORLD_HEIGHT, WORLD_WIDTH } from "../constant.js";
 
-// const BASE_URL = "http://localhost:8080/BallBlast/Entry";
-// const BASE_URL = "http://16.171.21.242:8080/BallBlast/Entry";
-export const BASE_URL = "https://pang.backend.quangnau.com/BallBlast/Entry";
+const BASE_URL = "http://localhost:8080/BallBlast/Entry";
+// export const BASE_URL = "https://pang.backend.quangnau.com/BallBlast/Entry";
 
 export async function test(playerId) {
     console.log(`Sending ${playerId}`);

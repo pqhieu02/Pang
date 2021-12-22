@@ -1,6 +1,7 @@
 import {
     BACKGROUND_TOTAL_OBJECT_X,
     BACKGROUND_TOTAL_OBJECT_Y,
+    ctx,
     MENU_FADE_OUT_DURATION,
     OBJECT_TYPE,
 } from "./constant.js";
@@ -14,7 +15,7 @@ const ANGLE_ROTATION_SPEED = 2;
 const MOUSE_MAX_RADIUS = 1000;
 const MOUSE_MIN_RADIUS = 0;
 
-const OBJECT_SPEED = 0.5;
+const OBJECT_SPEED = 0.25;
 
 const directions = [
     {
@@ -88,7 +89,12 @@ class GameObject {
     getSpeed(x0, y0, x1, y1) {
         let X = x1 - x0;
         let Y = y1 - y0;
-        // (mouse.radius - this.distance) / mouse.radius is proportional to the distance between mouse and object => object will move faster when near mouse and move slower when near the mouse
+
+        /**
+         * (mouse.radius - this.distance) / mouse.radius is proportional to the distance between mouse and object
+         * => object will move faster when near mouse and move slower when near the mouse
+         */
+
         let speed = {
             x:
                 (X / this.distance) *
@@ -173,9 +179,8 @@ class GameObject {
 
 function randomDirection() {
     let direction = Math.floor(Math.random() * directions.length);
-    velocity = directions[direction];
-    velocity.x *= OBJECT_SPEED;
-    velocity.y *= OBJECT_SPEED;
+    velocity.x = directions[direction].x * OBJECT_SPEED;
+    velocity.y = directions[direction].y * OBJECT_SPEED;
 }
 
 function initMenu(target_context, target_canvas) {

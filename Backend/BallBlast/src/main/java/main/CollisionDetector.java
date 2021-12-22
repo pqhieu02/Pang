@@ -26,8 +26,8 @@ public class CollisionDetector implements Constant {
 		for (int x = 0; x < GRID_WIDTH; x++) {
 			ArrayList<LinkedList<GameObject>> row = new ArrayList<>();
 			for (int y = 0; y < GRID_HEIGHT; y++) {
-				LinkedList<GameObject> column = new LinkedList<>();
-				row.add(column);
+				LinkedList<GameObject> square = new LinkedList<>();
+				row.add(square);
 			}
 			grid.add(row);
 		}
@@ -76,6 +76,7 @@ public class CollisionDetector implements Constant {
 		return false;
 	}
 
+	// clip method
 	public boolean isOverlapping(double x, double y, double size) {
 		int startX = (int) Math.max(0, Math.floor((x - size) / GRID_SQUARE_SIZE));
 		int startY = (int) Math.max(0, Math.floor((y - size) / GRID_SQUARE_SIZE));
@@ -96,13 +97,12 @@ public class CollisionDetector implements Constant {
 		return false;
 	}
 
-	public void clearGrid() {
-		synchronized (grid) {
-			for (int i = 0; i < GRID_WIDTH; i++) {
-				for (int j = 0; j < GRID_HEIGHT; j++) {
-					LinkedList<GameObject> square = grid.get(i).get(j);
-					square.clear();
-				}
+	private void clearGrid() {
+		for (int i = 0; i < GRID_WIDTH; i++) {
+			for (int j = 0; j < GRID_HEIGHT; j++) {
+				LinkedList<GameObject> square = grid.get(i).get(j);
+				square.clear();
+
 			}
 		}
 	}
@@ -113,8 +113,8 @@ public class CollisionDetector implements Constant {
 		LinkedList<Bullet> bullets = gameObjectCollection.getBullets();
 		HashMap<String, Player> players = gameObjectCollection.getPlayers();
 
-		clearGrid();
 		synchronized (grid) {
+			clearGrid();
 			for (Mob mob : mobs) {
 				addObjectToGrid(mob);
 			}
@@ -124,8 +124,8 @@ public class CollisionDetector implements Constant {
 			for (String playerId : players.keySet()) {
 				Player player = players.get(playerId);
 
-				if (!player.getLifeStatus())
-					continue;
+				if (!player.isAlive())
+					continue; // ???
 				addObjectToGrid(player);
 			}
 		}
@@ -147,7 +147,7 @@ public class CollisionDetector implements Constant {
 		for (String playerId : players.keySet()) {
 			Player player = players.get(playerId);
 
-			if (!player.getLifeStatus())
+			if (!player.isAlive())
 				continue;
 			collisionTracker.put(player, new HashMap<GameObject, Boolean>());
 		}
