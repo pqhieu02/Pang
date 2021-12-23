@@ -2,7 +2,7 @@ import {
     BACKGROUND_TOTAL_OBJECT_X,
     BACKGROUND_TOTAL_OBJECT_Y,
     ctx,
-    MENU_FADE_OUT_DURATION,
+    FADE_OUT_DURATION,
     OBJECT_TYPE,
 } from "./constant.js";
 import drawObject from "./lib/drawObject.js";
@@ -199,7 +199,7 @@ function initMenu(target_context, target_canvas) {
             ) * 0.3;
 
         SHRINK_SPEED =
-            DEFAULT_OBJECT_SIZE / ((MENU_FADE_OUT_DURATION * 60) / 1000);
+            DEFAULT_OBJECT_SIZE / ((FADE_OUT_DURATION * 60) / 1000);
 
         INITAL_X = DISTANCE_BETWEEN_WIDTH_OBJECT / 2;
         INITAL_Y = DISTANCE_BETWEEN_HEIGHT_OBJECT / 2;
@@ -275,7 +275,6 @@ function initMenu(target_context, target_canvas) {
 function loop() {
     context.fillStyle = "rgba(0, 0, 0, 1)";
     context.fillRect(0, 0, canvas.width, canvas.height);
-
     objects.forEach((object) => {
         object.update();
         object.render();

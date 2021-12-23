@@ -1,6 +1,8 @@
 import { hintList } from "../constant.js";
 
-function hintTextAnimation(hint) {
+var itvId;
+
+function startHintTextAnimation(hint) {
     const waitTime = 2000;
 
     let text = "";
@@ -9,7 +11,7 @@ function hintTextAnimation(hint) {
     let direction = 1;
     let timer = 0;
 
-    setInterval(() => {
+    itvId = setInterval(() => {
         timer = Math.max(0, timer - 100);
         if (timer !== 0) return;
         if (direction === -1) {
@@ -30,4 +32,8 @@ function hintTextAnimation(hint) {
     }, 100);
 }
 
-export { hintTextAnimation };
+function endHintTextAnimation() {
+    clearInterval(itvId);
+}
+
+export { startHintTextAnimation, endHintTextAnimation };

@@ -49,7 +49,6 @@ export default class World {
         window.onkeydown = async (e) => {
             let key = e.key.toLowerCase();
             if (["a", "s", "d", "w"].includes(key)) {
-                console.log(1);
                 this.background.setControllerKey(key, true);
                 await setKey(this.playerId, key);
             }
@@ -70,7 +69,7 @@ export default class World {
         let player = {
             x: playerX,
             y: playerY,
-            size: 30, // !!
+            size: 30, 
         };
         this.background.update(player);
         this.translateX = -playerX + canvas.width / 2;
@@ -139,7 +138,6 @@ export default class World {
         this.gameState.bullets.forEach((bullet) => this.draw(bullet));
 
         this.gameState.mobs.forEach((mob) => {
-            // console.log(mob);
             this.draw(mob);
         });
         this.gameState.players.forEach((player) => this.draw(player));
