@@ -44,9 +44,9 @@ async function startPlayingCanvas(playerId) {
     world = new World(playerId);
     world.init();
     gameLoop();
-    setTimeout(() => {
-        end();
-    }, 5000);
+    // setTimeout(() => {
+    //     end();
+    // }, 5000);
 }
 
 export { startPlayingCanvas };
