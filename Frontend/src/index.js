@@ -24,15 +24,15 @@ function startMenu() {
     canvas.style.animation = "fadeIn 2s forwards";
 }
 
-async function startPlayingCanvas(playerId) {
-    canvas.style.animation = "fadeIn 2s forwards";
-    world = new World(playerId);
-    world.init();
-    gameLoop();
-    setTimeout(() => {
-        end();
-    }, 5000);
-}
+// async function startPlayingCanvas(playerId) {
+//     canvas.style.animation = "fadeIn 2s forwards";
+//     world = new World(playerId);
+//     world.init();
+//     gameLoop();
+//     setTimeout(() => {
+//         end();
+//     }, 5000);
+// }
 
 function joinGame() {
     joinBtn.onclick = null;
