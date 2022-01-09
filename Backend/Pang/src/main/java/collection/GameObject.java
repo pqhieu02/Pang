@@ -1,6 +1,6 @@
 package collection;
 
-import form.JsonForm;
+import form.ObjectJsonForm;
 import main.Constant;
 import main.Velocity;
 
@@ -77,8 +77,8 @@ public abstract class GameObject implements Constant {
 		hp = hp > 0 ? Math.min(1, hp + 0.1f / 60) : hp;
 	}
 
-	public JsonForm getData() {
-		JsonForm data = new JsonForm(x, y, size, color, type, angleDegree, hp);
+	public ObjectJsonForm getData() {
+		ObjectJsonForm data = new ObjectJsonForm(x, y, size, color, type, angleDegree, hp);
 		return data;
 	}
 

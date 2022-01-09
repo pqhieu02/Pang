@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import form.ObjectJsonForm;
 import main.Velocity;
 
 public class Player extends GameObject {
@@ -54,7 +55,6 @@ public class Player extends GameObject {
 	}
 
 	private String name;
-	private double score;
 	protected WASD controller = new WASD();
 	private String id;
 	private boolean isAlive;
@@ -68,12 +68,13 @@ public class Player extends GameObject {
 	private double cameraBotX;
 	private double cameraBotY;
 
-	Player(double x, double y, double size, Color color, double screenWidth, double screenHeight) {
+	Player(String name, double x, double y, double size, Color color, double screenWidth, double screenHeight) {
 		super(x, y, size, size, PLAYER_DEFAULT_DAMAGE, TYPE_CIRCLE, color, true, false);
 		id = UUID.randomUUID().toString();
 		isVulnerable = true;
 		isAlive = true;
 		lastHeartBeat = LocalDateTime.now();
+		this.name = name;
 		setScreenWidth(screenWidth);
 		setScreenHeight(screenHeight);
 		updatePlayerCamera();
@@ -157,6 +158,7 @@ public class Player extends GameObject {
 
 		if (timeBetween >= 10) {
 			kill();
+			markToBeRemoved();
 		}
 
 		Velocity velocity = getVelocity();
@@ -177,6 +179,12 @@ public class Player extends GameObject {
 
 	public void updateHeartBeat(LocalDateTime time) {
 		lastHeartBeat = time;
+	}
+
+	public ObjectJsonForm getData() {
+		ObjectJsonForm data = super.getData();
+		data.setName(name);
+		return data;
 	}
 
 	public String getId() {
@@ -242,5 +250,4 @@ public class Player extends GameObject {
 	public void setCameraBotY(double cameraBotY) {
 		this.cameraBotY = cameraBotY;
 	}
-
 }

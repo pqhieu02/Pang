@@ -1,24 +1,9 @@
 import { canvas, WORLD_HEIGHT, WORLD_WIDTH } from "../constant.js";
 
-// const BASE_URL = "http://localhost:8080/BallBlast/Entry";
-export const BASE_URL = "https://pang.backend.quangnau.com/BallBlast/Entry";
+// const BASE_URL = "http://localhost:8080/Pang/Entry";
+const BASE_URL = "https://pang.backend.quangnau.com/Pang/Entry";
 
-export async function test(playerId) {
-    console.log(`Sending ${playerId}`);
-    // playerId = playerId.replace(/(\r\n|\n|\r)/gm, "");
-    let res = await fetch(BASE_URL, {
-        method: "post",
-        header: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            action: "test",
-            playerId: playerId,
-        }),
-    });
-}
-
-export async function registerForId() {
+export async function registerForId(playerName) {
     let res = await fetch(BASE_URL, {
         method: "post",
         header: {
@@ -26,6 +11,7 @@ export async function registerForId() {
         },
         body: JSON.stringify({
             action: "register",
+            name: playerName,
             screenWidth: canvas.width,
             screenHeight: canvas.height,
         }),

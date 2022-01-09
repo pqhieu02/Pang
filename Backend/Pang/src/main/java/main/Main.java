@@ -1,18 +1,46 @@
 package main;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
+class Parent {
+	public int x;
 
-public class Main {
-
-	public static void main(String[] args) throws InterruptedException {
-//		Date time = LocalDateTime.now();
-		LocalDateTime time = LocalDateTime.now();
-		LocalDateTime time1 = LocalDateTime.now();
-		Duration duration = Duration.between(time, time1);
-		long a = duration.toSeconds();
-		System.out.println(a);
-		System.out.println(duration);
+	Parent(int x) {
+		this.x = x;
 	}
 
+	void show() {
+		System.out.println("Parent.Show");
+	}
+
+	void eat() {
+		System.out.println("Parent.Eat");
+	}
+}
+
+class Child extends Parent {
+	public int y;
+
+	Child(int x, int y) {
+		super(x);
+		this.y = y;
+	}
+
+	Child(int x) {
+		super(x);
+	}
+
+	void show() {
+		System.out.println("Child.Show");
+	}
+
+	void sing() {
+		System.out.println("Child.Sing");
+	}
+}
+
+public class Main {
+	public static void main(String[] args) {
+		Parent p = new Child(1);
+		Child c = (Child) p;
+		c.eat();
+	}
 }

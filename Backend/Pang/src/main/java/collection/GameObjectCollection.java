@@ -13,15 +13,11 @@ public class GameObjectCollection implements Constant {
 	private LinkedList<Bullet> bullets = new LinkedList<>();
 	private LinkedList<Particle> particles = new LinkedList<>();
 
-	// wrong solution
-	private LinkedList<Mob> mobsQueue = new LinkedList<>();
-	private LinkedList<Bullet> bulletsQueue = new LinkedList<>();
-	private HashMap<String, Player> playersQueue = new HashMap<String, Player>();
-
-	public String addPlayer(double x, double y, double size, Color color, double screenWidth, double screenHeight) {
-		Player player = new Player(x, y, size, color, screenWidth, screenHeight);
+	public String addPlayer(String name, double x, double y, double size, Color color, double screenWidth,
+			double screenHeight) {
+		Player player = new Player(name, x, y, size, color, screenWidth, screenHeight);
 		String playerId = player.getId();
-		playersQueue.put(playerId, player);
+		players.put(playerId, player);
 		return playerId;
 	}
 
@@ -35,7 +31,7 @@ public class GameObjectCollection implements Constant {
 
 	public void addRandomMobToQueue(double x, double y, double size, double thresholdSize, Color color, String type) {
 		Mob mob = new Mob(x, y, 1, size, thresholdSize, color, type);
-		mobsQueue.add(mob);
+		mobs.add(mob);
 	};
 
 	public void addBulletToQueue(double playerX, double playerY, double destinationX, double destinationY, double size,
@@ -43,13 +39,12 @@ public class GameObjectCollection implements Constant {
 		if (!player.isAlive() || player.isVulnerable())
 			return;
 		Bullet bullet = new Bullet(playerX, playerY, destinationX, destinationY, BULLET_SIZE, BULLET_COLOR, player);
-		bulletsQueue.add(bullet);
+		bullets.add(bullet);
 	}
 
 	public void addParticle(double x, double y, double size, Color color, String type) {
 		Particle particle = new Particle(x, y, size, color, type);
 		particles.add(particle);
-
 	}
 
 	public void removeObjects() {
@@ -88,22 +83,6 @@ public class GameObjectCollection implements Constant {
 				Particle_it.remove();
 			}
 		}
-	}
-
-	public void addGameObjectInQueueToWorld() {
-		for (Mob mob : mobsQueue) {
-			mobs.add(mob);
-		}
-		for (Bullet bullet : bulletsQueue) {
-			bullets.add(bullet);
-		}
-		for (String id : playersQueue.keySet()) {
-			Player player = playersQueue.get(id);
-			players.put(id, player);
-		}
-		mobsQueue.clear();
-		bulletsQueue.clear();
-		playersQueue.clear();
 	}
 
 	public void update() {

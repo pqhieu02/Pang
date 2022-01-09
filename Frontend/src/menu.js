@@ -1,7 +1,6 @@
 import {
     BACKGROUND_TOTAL_OBJECT_X,
     BACKGROUND_TOTAL_OBJECT_Y,
-    ctx,
     FADE_OUT_DURATION,
     OBJECT_TYPE,
 } from "./constant.js";
@@ -10,7 +9,7 @@ import drawObject from "./lib/drawObject.js";
 const OBJECT_SPEED_FACTOR_MAXIMUM = 15;
 const OBJECT_SPEED_FACTOR_MINIMUM = 5;
 const OBJECT_RETURN_BASE_LOCATION_SPEED = 0.05;
-const ANGLE_ROTATION_SPEED = 2;
+const ANGLE_ROTATION_SPEED = 1;
 
 const MOUSE_MAX_RADIUS = 1000;
 const MOUSE_MIN_RADIUS = 0;
@@ -183,7 +182,7 @@ function randomDirection() {
     velocity.y = directions[direction].y * OBJECT_SPEED;
 }
 
-function initMenu(target_context, target_canvas) {
+function startMenu(target_context, target_canvas) {
     const initVariable = () => {
         context = target_context;
         canvas = target_canvas;
@@ -301,4 +300,4 @@ function cleanCanvas() {
     cancelAnimationFrame(frameId);
 }
 
-export { initMenu, endMenu, cleanCanvas };
+export { startMenu, endMenu, cleanCanvas };

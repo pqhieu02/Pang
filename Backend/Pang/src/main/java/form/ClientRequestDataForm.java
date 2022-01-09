@@ -5,6 +5,7 @@ public class ClientRequestDataForm {
 	public String playerId;
 
 	// Register => return playerId
+	public String name;
 	public double screenWidth;
 	public double screenHeight;
 

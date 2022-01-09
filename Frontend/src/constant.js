@@ -6,7 +6,7 @@ canvas.height = window.innerHeight;
 
 export const WORLD_WIDTH = 6000;
 export const WORLD_HEIGHT = 6000;
-export const FIRE_RATE = 300;
+export const FIRE_RATE = 100;
 
 export const TYPE_HEXAGON = "HEXAGON";
 export const TYPE_SQUARE = "SQUARE";
@@ -19,6 +19,9 @@ export const OBJECT_TYPE = [
     TYPE_CIRCLE,
     TYPE_TRIANGLE,
 ];
+
+export const TEXT_FONT_TYPE = "Arial";
+export const TEXT_FONT_SIZE = 30;
 
 export const BACKGROUND_TOTAL_OBJECT_X = 20;
 export const BACKGROUND_TOTAL_OBJECT_Y = 20;

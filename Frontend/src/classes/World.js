@@ -2,12 +2,21 @@ import {
     canvas,
     ctx,
     FIRE_RATE,
+    TEXT_FONT_SIZE,
+    TEXT_FONT_TYPE,
     WORLD_HEIGHT,
     WORLD_WIDTH,
 } from "../constant.js";
+import { endGame } from "../index.js";
 import drawObject from "../lib/drawObject.js";
-import { fire, setKey, unsetKey } from "../lib/fetchAPI.js";
+import { fire, getGameState, setKey, unsetKey } from "../lib/fetchAPI.js";
 import Background from "./Background.js";
+
+var world;
+var animationFrameLocker;
+var frameId;
+var fps;
+var times = [];
 
 export default class World {
     constructor(playerId) {
@@ -17,6 +26,7 @@ export default class World {
         this.translateX = 0;
         this.translateY = 0;
         this.background = new Background();
+        this.isBeingTerminated = false;
     }
 
     init() {
@@ -69,7 +79,7 @@ export default class World {
         let player = {
             x: playerX,
             y: playerY,
-            size: 30, 
+            size: 30,
         };
         this.background.update(player);
         this.translateX = -playerX + canvas.width / 2;
@@ -89,6 +99,11 @@ export default class World {
         }
         if (canvas.height >= WORLD_HEIGHT) {
             this.translateY = 0;
+        }
+        if (!this.isBeingTerminated && !gameState.isAlive) {
+            endGame();
+            this.endEventHandler();
+            this.isBeingTerminated = true;
         }
     }
 
@@ -110,6 +125,15 @@ export default class World {
         ctx.fill();
     }
 
+    drawPlayerName(x, y, size, text) {
+        if (!text || !this.gameState.isAlive) return;
+        ctx.beginPath();
+        ctx.font = `${TEXT_FONT_SIZE}px ${TEXT_FONT_TYPE}`;
+        let textSize = ctx.measureText(text).width;
+        ctx.fillStyle = "white";
+        ctx.fillText(text, x - textSize / 2, y - size - 10);
+    }
+
     draw(object) {
         let HSLColor = `hsl(${object.color.h * 360}, ${
             object.color.s * 100
@@ -124,6 +148,7 @@ export default class World {
         };
 
         ctx.translate(this.translateX, this.translateY);
+        this.drawPlayerName(object.x, object.y, object.size, object.name);
         this.drawHpBar(object.x, object.y, object.size, object.hp);
         drawObject(ctx, toDrawObject);
     }
@@ -138,12 +163,15 @@ export default class World {
         this.gameState.bullets.forEach((bullet) => this.draw(bullet));
 
         this.gameState.mobs.forEach((mob) => {
+            // console.log(mob.name);
             this.draw(mob);
         });
-        this.gameState.players.forEach((player) => this.draw(player));
+        this.gameState.players.forEach((player) => {
+            this.draw(player);
+        });
     }
 
-    stopEventHandlerAndAnimation() {
+    endEventHandler() {
         this.background.resetController();
         window.onmousedown = null;
         window.onmouseup = null;
@@ -154,9 +182,45 @@ export default class World {
     end() {
         this.playerId = null;
         this.gunTriggerItv = null;
-        window.onmousedown = null;
-        window.onmouseup = null;
-        window.onkeydown = null;
-        window.onkeyup = null;
+        this.background.end();
     }
 }
+
+async function gameLoop() {
+    let playerId = world.playerId;
+    let gameState = await getGameState(playerId);
+
+    if (gameState !== "error") {
+        world.update(gameState);
+        world.render();
+    }
+
+    const now = performance.now();
+    while (times.length > 0 && times[0] <= now - 1000) {
+        times.shift();
+    }
+    times.push(now);
+    fps = times.length;
+
+    ctx.fillStyle = "white";
+    ctx.font = "20px Arial";
+    ctx.fillText(fps, 0, 30);
+    if (animationFrameLocker) {
+        frameId = requestAnimationFrame(gameLoop);
+    }
+}
+
+function startWorld(playerId) {
+    world = new World(playerId);
+    animationFrameLocker = true;
+    world.init();
+    gameLoop();
+}
+
+function endWorld() {
+    world.end();
+    animationFrameLocker = false;
+    cancelAnimationFrame(frameId);
+}
+
+export { startWorld, endWorld };

@@ -21,8 +21,6 @@ const INITAL_Y = DISTANCE_BETWEEN_HEIGHT_OBJECT / 2;
 const LAST_X = DISTANCE_BETWEEN_WIDTH_OBJECT * (BACKGROUND_TOTAL_OBJECT_X + 1);
 const LAST_Y = DISTANCE_BETWEEN_HEIGHT_OBJECT * (BACKGROUND_TOTAL_OBJECT_Y + 1);
 
-var objects = [];
-
 var velocity = {
     x: 0,
     y: 0,
@@ -64,6 +62,7 @@ class BackgroundObject {
 
 export default class Background {
     constructor() {
+        this.objects = [];
         for (let i = -1; i < BACKGROUND_TOTAL_OBJECT_X + 1; i++)
             for (let j = -1; j < BACKGROUND_TOTAL_OBJECT_Y + 1; j++) {
                 let X = INITAL_X + i * DISTANCE_BETWEEN_WIDTH_OBJECT;
@@ -76,18 +75,22 @@ export default class Background {
                 let type =
                     OBJECT_TYPE[Math.floor(Math.random() * OBJECT_TYPE.length)];
                 let object = new BackgroundObject(X, Y, size, color, type);
-                objects.push(object);
+                this.objects.push(object);
             }
+        this.resetController();
+    }
+
+    setControllerKey(key, value) {
+        this.controller[key] = value;
+    }
+
+    resetController() {
         this.controller = {
             w: false,
             a: false,
             s: false,
             d: false,
         };
-    }
-
-    setControllerKey(key, value) {
-        this.controller[key] = value;
     }
 
     update(player) {
@@ -113,14 +116,19 @@ export default class Background {
             velocity.y = 0;
         }
 
-        objects.forEach((object) => {
+        this.objects.forEach((object) => {
             object.update();
         });
     }
 
     render() {
-        objects.forEach((object) => {
+        this.objects.forEach((object) => {
             object.render();
         });
+    }
+
+    end() {
+        this.resetController();
+        this.objects = [];
     }
 }

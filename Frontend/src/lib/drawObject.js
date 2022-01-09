@@ -1,4 +1,6 @@
 import {
+    TEXT_FONT_SIZE,
+    TEXT_FONT_TYPE,
     TYPE_CIRCLE,
     TYPE_HEXAGON,
     TYPE_SQUARE,
@@ -34,7 +36,7 @@ export default function drawObject(context, object) {
             break;
         }
         case TYPE_CIRCLE: {
-            context.arc(0, 0, object.size, 0, Math.PI * 2);
+            context.arc(0, 0, object.size, 0, Math.PI * 2); 
             break;
         }
         case TYPE_SQUARE: {
@@ -47,18 +49,6 @@ export default function drawObject(context, object) {
             break;
         }
         case TYPE_TRIANGLE: {
-            // let a = object.size / (Math.sqrt(3) / 6);
-            // let height = a * (Math.sqrt(3) / 2);
-            // let distanceFromCenterToVertex = height * (2 / 3);
-            // let X = 0;
-            // let Y = -distanceFromCenterToVertex;
-
-            // context.moveTo(X, Y);
-            // context.lineTo(X - a / 2, Y + height);
-            // context.lineTo(X + a / 2, Y + height);
-            // break;
-            
-            // object.size *= 2;
             let a = object.size * 2;
             let height = a * (Math.sqrt(3) / 2);
             let distanceFromCenterToVertex = (2 * height) / 3;

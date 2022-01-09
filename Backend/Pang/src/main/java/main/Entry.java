@@ -19,15 +19,11 @@ public class Entry extends HttpServlet implements Constant {
 
 	public String requestHandler(ClientRequestDataForm data) {
 		switch (data.action) {
-		case ACTION_TEST:
-			System.out.println(data.playerId);
-			System.out.println(world.getPlayer(data.playerId));
-			System.out.println("Done");
-			return data.playerId;
 		case ACTION_REGISTER: {
+			String name = data.name;
 			double width = data.screenWidth;
 			double height = data.screenHeight;
-			String playerId = world.addPlayer(width, height);
+			String playerId = world.addPlayer(name, width, height);
 			return playerId;
 		}
 		case ACTION_GET_GAME_STATE: {

@@ -1,5 +1,6 @@
 package collection;
 
+@SuppressWarnings("unused")
 public class Color {
 	private float h;
 	private float s;

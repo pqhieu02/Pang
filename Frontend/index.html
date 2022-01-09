@@ -4,6 +4,7 @@
     <head>
         <title>Pang</title>
         <link rel="stylesheet" href="style.css" />
+        <link rel="icon" href="favicon.png">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     </head>
 
@@ -17,7 +18,13 @@
             </div>
             <span>Hint:</span>
             <span id="hint"></span>
-            <input type="text" placeholder="Your name" id="inputName" maxlength = "10"/>
+            <input
+                type="text"
+                placeholder="Your name"
+                id="inputName"
+                maxlength="10"
+                autocomplete="off"
+            />
             <button id="joinBtn">Join</button>
         </div>
         <canvas id="canvas"></canvas>

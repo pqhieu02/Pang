@@ -5,7 +5,7 @@ import java.util.HashMap;
 import collection.Color;
 import collection.MobTypeDatamine;
 
-// To class
+@SuppressWarnings("serial")
 public interface Constant {
 	final String SPEED_TARGET_MOB = "MOB";
 	final String SPEED_TARGET_BULLET = "BULLET";
